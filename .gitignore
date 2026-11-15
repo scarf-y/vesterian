@@ -7,3 +7,9 @@ __pycache__/
 /data/vesteria/responses/
 /data/vesteria/cache-index.json
 /data/vesteria/sources/api-catalog.json
+.runtime/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/

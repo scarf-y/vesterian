@@ -1,0 +1,1 @@
+"""Vesterian Discord information app."""

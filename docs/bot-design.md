@@ -1,6 +1,6 @@
 # Vesterian Discord app design
 
-Proposed on 15 November 2026. This is an implementation specification, **not an implemented or deployed bot**. The [policy example](../config/bot-policy.example.json) records proposed defaults; nothing currently reads or enforces it.
+Proposed on 15 November 2026. This document is the target design. The first functional implementation is now described in [Commands and interaction walkthrough](commands.md), including its implemented controls and remaining gaps. The [policy example](../config/bot-policy.example.json) still records proposed defaults; the runtime does not load this file.
 
 The design assumes an initial server-installed app, a single continuously running process, slash commands, and a local database/cache. Hosting and implementation language remain open. Evidence about Vesteria comes from the [verified route map](vesteria-route-map.md) and [saved response checks](../data/vesteria/endpoint-checks.json).
 
@@ -191,4 +191,4 @@ Before launch, exercise these meaningful cases:
 - Source text containing mentions/markup remains inert on initial replies and edits; formatted output respects Discord limits.
 - Restart, Gateway reconnect, source outage, and quota-store failure preserve bounded behavior and prompt acknowledgements.
 
-These checks are requirements for the future implementation. The current repository contains discovery code and planning artifacts only; it does not yet provide these controls.
+These are acceptance goals for the full design. See the current automated tests and [implementation status](commands.md#implemented-limits-and-remaining-design-work) for what the first release covers. Deployment and a live Discord acceptance check require the owner's app credentials.

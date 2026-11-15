@@ -1,0 +1,2235 @@
+{
+  "assetTypes": [
+    "item",
+    "ability",
+    "monster",
+    "map"
+  ],
+  "assets": {
+    "items": [
+      {
+        "assetId": 3405284231,
+        "assetType": "item",
+        "autoConsume": false,
+        "behaviorSummary": "Removes one failed upgrade slot from an item (the Magnificent variation removes all failed slots at once). It can only be used on items that have been upgraded and currently have at least one failed slot, and the restoration always succeeds.",
+        "category": "consumable",
+        "craftingRecipes": [],
+        "description": "A legendary scroll with the unique ability to remove a failed upgrade slot from an item.",
+        "extraMetadata": {
+          "canAwaken": false,
+          "canBeBound": false,
+          "canStack": true
+        },
+        "grantsAbilities": [],
+        "hasCustomScript": true,
+        "hidden": false,
+        "id": 185,
+        "isImportant": true,
+        "itemType": "scroll",
+        "metadata": {
+          "buyValue": {
+            "assetId": 2535600034,
+            "color": {
+              "b": 223,
+              "g": 223,
+              "r": 223
+            },
+            "colorCss": "rgb(223, 223, 223)",
+            "iconUrl": "/assets/2535600034/image?size=64",
+            "image": "rbxassetid://2535600034",
+            "name": "Silver",
+            "rawValue": 50000,
+            "text": "50",
+            "tier": 2
+          },
+          "cosmeticScroll": false,
+          "enchantsEquipment": true,
+          "obtainedFrom": {
+            "columns": [
+              "Source",
+              "How to obtain",
+              "Chance / amount"
+            ],
+            "kind": "table",
+            "rows": [
+              [
+                {
+                  "text": "Dynamic Slime",
+                  "url": "/monsters/dynamic-slime"
+                },
+                "Monster drop",
+                "10% chance"
+              ],
+              [
+                {
+                  "text": "Ethera",
+                  "url": "/monsters/ethera"
+                },
+                "Monster drop",
+                "30% chance"
+              ],
+              [
+                {
+                  "text": "Kraken",
+                  "url": "/monsters/kraken"
+                },
+                "Dungeon reward",
+                "20% chance; quantity 1; 2 loot rolls (chance per roll); Must be alive when the dungeon is won"
+              ],
+              [
+                {
+                  "text": "Malich the Magnificent",
+                  "url": "/monsters/malich"
+                },
+                "Monster drop",
+                "15% chance; 2 loot rolls (chance per roll)"
+              ],
+              [
+                {
+                  "text": "Pirate Captain",
+                  "url": "/monsters/pirate-captain"
+                },
+                "Monster drop",
+                "7% chance"
+              ],
+              [
+                {
+                  "text": "Zho'lok",
+                  "url": "/monsters/skull-boss"
+                },
+                "Monster drop",
+                "25% chance; 2 loot rolls (chance per roll)"
+              ],
+              [
+                {
+                  "text": "Tal-Rey",
+                  "url": "/monsters/tal-rey"
+                },
+                "Dungeon reward",
+                "20% chance"
+              ]
+            ]
+          },
+          "sellValue": {
+            "assetId": 2535600034,
+            "color": {
+              "b": 223,
+              "g": 223,
+              "r": 223
+            },
+            "colorCss": "rgb(223, 223, 223)",
+            "iconUrl": "/assets/2535600034/image?size=64",
+            "image": "rbxassetid://2535600034",
+            "name": "Silver",
+            "rawValue": 4000,
+            "text": "4",
+            "tier": 2
+          },
+          "stackSize": 7,
+          "successRate": 1,
+          "upgradeScroll": true
+        },
+        "name": "Holy Scroll",
+        "nameColor": {
+          "b": 0,
+          "g": 238,
+          "name": "Gold",
+          "r": 255
+        },
+        "nameColorCss": "rgb(255, 238, 0)",
+        "rarity": "Legendary",
+        "reforgeRecipes": [],
+        "requiredClasses": [],
+        "slug": "holy-scroll",
+        "soulbound": false,
+        "thumbnailUrl": "/items/holy-scroll/thumbnail",
+        "tier": 7,
+        "updatedAt": "2026-09-18T21:41:16+00:00",
+        "url": "/items/holy-scroll",
+        "usedInRecipes": [],
+        "variations": [
+          {
+            "name": "Magnificent Holy Scroll",
+            "nameColorCss": "rgb(0, 255, 0)",
+            "rarity": "Legendary",
+            "slug": "magnificent",
+            "thumbnailUrl": "/items/holy-scroll/thumbnail?variation=magnificent",
+            "tier": 9,
+            "url": "/items/holy-scroll?variation=magnificent",
+            "variation": "magnificent"
+          }
+        ],
+        "versionHistory": [
+          {
+            "changeType": "updated",
+            "details": [
+              "Ethera base drop chance: 10% \u2192 30%.",
+              "Ethera weekly reward pool: previously absent \u2192 includes Holy Scroll."
+            ],
+            "publishedAt": "2026-09-18T21:41:16+00:00",
+            "releaseVersion": 1323,
+            "summary": "Holy Scroll drops more often from Ethera and joins her weekly rewards.",
+            "url": "/versions/1323#v1323",
+            "version": 1323,
+            "versionLabel": "v1323",
+            "versions": [
+              1323
+            ]
+          }
+        ]
+      },
+      {
+        "assetId": 2528902878,
+        "assetType": "item",
+        "autoConsume": false,
+        "behaviorSummary": null,
+        "category": "equipment",
+        "craftingRecipes": [],
+        "description": "A particularly crisp stick.",
+        "extraMetadata": {
+          "baseValue": 345,
+          "canAwaken": true,
+          "canBeBound": false,
+          "canStack": false,
+          "equipmentSlot": "Weapon (slot 1)",
+          "isEquippable": true
+        },
+        "grantsAbilities": [],
+        "hasCustomScript": false,
+        "hidden": false,
+        "id": 5,
+        "isImportant": false,
+        "itemType": "sword",
+        "metadata": {
+          "baseDamage": 15,
+          "blessedUpgrade": {
+            "kind": "stats",
+            "stats": [
+              {
+                "label": "Weapon Attack",
+                "negative": false,
+                "value": "+20"
+              }
+            ]
+          },
+          "buyValue": {
+            "assetId": 2535600080,
+            "color": {
+              "b": 149,
+              "g": 170,
+              "r": 255
+            },
+            "colorCss": "rgb(255, 170, 149)",
+            "iconUrl": "/assets/2535600080/image?size=64",
+            "image": "rbxassetid://2535600080",
+            "name": "Bronze",
+            "rawValue": 345,
+            "text": "345",
+            "tier": 1
+          },
+          "maxUpgrades": 7,
+          "obtainedFrom": {
+            "columns": [
+              "Source",
+              "How to obtain",
+              "Chance / amount"
+            ],
+            "kind": "table",
+            "rows": [
+              [
+                {
+                  "text": "Treemuk",
+                  "url": "/monsters/treemuk"
+                },
+                "Monster drop",
+                "25% chance"
+              ],
+              [
+                {
+                  "text": "Shroommuk",
+                  "url": "/monsters/treemuk?variation=shroom"
+                },
+                "Monster drop",
+                "25% chance"
+              ]
+            ]
+          },
+          "reforgeLevels": 5,
+          "requiredLevel": 1,
+          "sellValue": {
+            "assetId": 2535600080,
+            "color": {
+              "b": 149,
+              "g": 170,
+              "r": 255
+            },
+            "colorCss": "rgb(255, 170, 149)",
+            "iconUrl": "/assets/2535600080/image?size=64",
+            "image": "rbxassetid://2535600080",
+            "name": "Bronze",
+            "rawValue": 256,
+            "text": "256",
+            "tier": 1
+          }
+        },
+        "name": "Stick",
+        "nameColor": null,
+        "nameColorCss": null,
+        "rarity": "Common",
+        "reforgeRecipes": [
+          {
+            "ingredients": [
+              {
+                "assetId": 5319820628,
+                "id": 750,
+                "minReforge": null,
+                "module": "oak wood",
+                "name": "Oak Wood",
+                "slug": "oak-wood",
+                "stacks": 10,
+                "thumbnailUrl": "/items/oak-wood/thumbnail?size=64",
+                "url": "/items/oak-wood",
+                "variation": null
+              }
+            ],
+            "key": "stick",
+            "kind": "reforging",
+            "recipeType": "reforge",
+            "results": [
+              {
+                "assetId": 2528902878,
+                "id": 5,
+                "minReforge": null,
+                "module": "stick",
+                "name": "Stick",
+                "slug": "stick",
+                "stacks": 1,
+                "thumbnailUrl": "/items/stick/thumbnail?size=64",
+                "url": "/items/stick",
+                "variation": null
+              }
+            ]
+          }
+        ],
+        "requiredClasses": [],
+        "slug": "stick",
+        "soulbound": false,
+        "thumbnailUrl": "/items/stick/thumbnail",
+        "tier": null,
+        "url": "/items/stick",
+        "usedInRecipes": []
+      }
+    ],
+    "abilities": [
+      {
+        "abilities": [
+          {
+            "adaptiveAttack": false,
+            "assetId": 2528902271,
+            "assetType": "ability",
+            "book": {
+              "name": "Adventurer",
+              "slug": "adventurer",
+              "url": "/abilities/adventurer"
+            },
+            "damageType": "physical",
+            "description": "Throw a rock at an enemy.",
+            "equipmentAbility": false,
+            "grantedBy": [],
+            "hiddenInGame": false,
+            "iconUrl": "/assets/2528902271/thumbnail",
+            "id": 34,
+            "interactions": [],
+            "maxRank": 3,
+            "name": "Rock Throw",
+            "passive": false,
+            "rankTables": [
+              {
+                "maxRank": 3,
+                "name": null,
+                "table": {
+                  "columns": [
+                    "Rank",
+                    "Power",
+                    "Cooldown",
+                    "Range"
+                  ],
+                  "kind": "table",
+                  "rows": [
+                    [
+                      "Rank 0",
+                      "150",
+                      "3s",
+                      "50m"
+                    ],
+                    [
+                      "Rank 1",
+                      "200",
+                      "3s",
+                      "50m"
+                    ],
+                    [
+                      "Rank 2",
+                      "250",
+                      "3s",
+                      "50m"
+                    ],
+                    [
+                      "Rank 3",
+                      "300",
+                      "3s",
+                      "50m"
+                    ]
+                  ]
+                }
+              }
+            ],
+            "scalingType": null,
+            "slug": "rock-throw",
+            "stats": {
+              "kind": "stats",
+              "stats": [
+                {
+                  "label": "Power",
+                  "negative": false,
+                  "value": "150"
+                },
+                {
+                  "label": "Cost",
+                  "negative": false,
+                  "value": "1 STAM"
+                },
+                {
+                  "label": "Cooldown",
+                  "negative": false,
+                  "value": "3s"
+                },
+                {
+                  "label": "Range",
+                  "negative": false,
+                  "value": "50m"
+                }
+              ]
+            },
+            "thumbnailUrl": "/assets/2528902271/thumbnail",
+            "updatedAt": "2026-06-20T01:10:48+00:00",
+            "upgradePaths": [
+              {
+                "maxRank": 3,
+                "name": "Power Up",
+                "perRank": {
+                  "kind": "stats",
+                  "stats": [
+                    {
+                      "label": "Power",
+                      "negative": false,
+                      "value": "+50"
+                    }
+                  ]
+                },
+                "pointsPerRank": 1
+              }
+            ],
+            "url": "/abilities/adventurer/rock-throw",
+            "variations": [
+              {
+                "assetId": 2528902271,
+                "hidden": false,
+                "label": "Boulder Throw",
+                "name": "Boulder Throw",
+                "perks": [],
+                "requirementHtml": null,
+                "requirementText": "STR \u2265 150",
+                "slug": "boulder-throw",
+                "thumbnailUrl": "/assets/2528902271/thumbnail",
+                "url": "/abilities/adventurer/rock-throw?variation=boulder-throw"
+              },
+              {
+                "assetId": 2528902271,
+                "hidden": false,
+                "label": "Bird Throw",
+                "name": "Bird Throw",
+                "perks": [
+                  {
+                    "key": "crowbar",
+                    "name": "Bird Throw"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": null,
+                "slug": "bird-throw",
+                "thumbnailUrl": "/assets/2528902271/thumbnail",
+                "url": "/abilities/adventurer/rock-throw?variation=bird-throw"
+              },
+              {
+                "assetId": 12435981543,
+                "hidden": true,
+                "label": "Bone Throw",
+                "name": "Bone Throw",
+                "perks": [
+                  {
+                    "key": "boneThrow",
+                    "name": "Bone Throw"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": null,
+                "slug": "bone-throw",
+                "thumbnailUrl": "/assets/12435981543/thumbnail",
+                "url": "/abilities/adventurer/rock-throw?variation=bone-throw"
+              },
+              {
+                "assetId": 6719729728,
+                "hidden": false,
+                "label": "Fish Throw",
+                "name": "Fish Throw",
+                "perks": [
+                  {
+                    "key": "fishthrow",
+                    "name": "Fish Throw"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": null,
+                "slug": "fish-throw",
+                "thumbnailUrl": "/assets/6719729728/thumbnail",
+                "url": "/abilities/adventurer/rock-throw?variation=fish-throw"
+              },
+              {
+                "assetId": 12435981543,
+                "hidden": false,
+                "label": "Spear Throw",
+                "name": "Spear Throw",
+                "perks": [
+                  {
+                    "key": "spearThrow",
+                    "name": "Spear Throw"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": null,
+                "slug": "spear-throw",
+                "thumbnailUrl": "/assets/12435981543/thumbnail",
+                "url": "/abilities/adventurer/rock-throw?variation=spear-throw"
+              },
+              {
+                "assetId": null,
+                "hidden": true,
+                "label": "Molotov Throw",
+                "name": "Molotov Throw",
+                "perks": [
+                  {
+                    "key": "molotov",
+                    "name": "Molotov Throw"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": null,
+                "slug": "molotov-throw",
+                "thumbnailUrl": "/assets/2528902271/thumbnail",
+                "url": "/abilities/adventurer/rock-throw?variation=molotov-throw"
+              },
+              {
+                "assetId": 135406569613690,
+                "createdAt": "2026-05-15T14:41:11+00:00",
+                "hidden": false,
+                "label": "Spore Throw",
+                "name": "Spore Throw",
+                "perks": [
+                  {
+                    "key": "mushroomBomb",
+                    "name": "Spore Bomb"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": null,
+                "slug": "spore-throw",
+                "thumbnailUrl": "/assets/135406569613690/thumbnail",
+                "updatedAt": "2026-05-15T14:41:11+00:00",
+                "url": "/abilities/adventurer/rock-throw?variation=spore-throw",
+                "versionHistory": [
+                  {
+                    "changeType": "created",
+                    "details": [
+                      "Mushroom Bomb perk throws a mushroom spore projectile with particles/trail and an appear sound on impact.",
+                      "On landing, it spawns a mushroom that detonates after 1.5s in a green AoE scaled by bonusAbilityRadius.",
+                      "Mushroom blast deals adaptive AoE damage, then applies adaptive poison damage once per second for 3 seconds at half base damage."
+                    ],
+                    "publishedAt": "2026-05-15T14:41:11+00:00",
+                    "releaseVersion": 1296,
+                    "summary": "Added Spore Throw, a Mushroom Bomb variant with delayed poison mushroom explosions.",
+                    "url": "/versions/1296",
+                    "version": 1296,
+                    "versionLabel": "v1296",
+                    "versions": [
+                      1296
+                    ]
+                  }
+                ]
+              },
+              {
+                "assetId": 100221518944570,
+                "createdAt": "2026-06-05T22:16:32+00:00",
+                "hidden": false,
+                "label": "Honey Throw",
+                "name": "Honey Throw",
+                "perks": [
+                  {
+                    "key": "blessedHaloDagger",
+                    "name": "Blessed Halo"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": null,
+                "slug": "honey-throw",
+                "thumbnailUrl": "/assets/100221518944570/thumbnail",
+                "updatedAt": "2026-06-05T22:16:32+00:00",
+                "url": "/abilities/adventurer/rock-throw?variation=honey-throw",
+                "versionHistory": [
+                  {
+                    "changeType": "created",
+                    "details": [
+                      "Rock Throw now reads the blessedHaloDagger perk and uses a blessed projectile with a halo impact sound.",
+                      "Blessed Halo rock hits deal double base damage as magical projectile damage.",
+                      "Successful Blessed Halo rock hits give the caster a 200 shield for 3 seconds.",
+                      "Blessed Halo ability use can heal injured friendly or neutral targets near the impact and reduce the current Rock Throw cooldown by 5% after a heal.",
+                      "Added magical AoE damage handling for haloExplosion and moved Rock Throw cleanup to task.delay."
+                    ],
+                    "publishedAt": "2026-06-05T22:16:32+00:00",
+                    "releaseVersion": 1299,
+                    "summary": "Added Honey Throw, a Blessed Halo Rock Throw variant with magical halo hits, shielding, nearby ally healing, and cooldown reduction.",
+                    "url": "/versions/1299",
+                    "version": 1299,
+                    "versionLabel": "v1299",
+                    "versions": [
+                      1299
+                    ]
+                  }
+                ]
+              },
+              {
+                "assetId": 99829984925454,
+                "hidden": false,
+                "label": "Fire Blast",
+                "name": "Fire Blast",
+                "perks": [
+                  {
+                    "key": "salamander",
+                    "name": "Salamander Slickness"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": null,
+                "slug": "fire-blast",
+                "thumbnailUrl": "/assets/99829984925454/thumbnail",
+                "updatedAt": "2026-11-06T23:38:52+00:00",
+                "url": "/abilities/adventurer/rock-throw?variation=fire-blast",
+                "versionHistory": [
+                  {
+                    "changeType": "updated",
+                    "details": [
+                      "PvP damage: previously full damage \u2192 75%."
+                    ],
+                    "publishedAt": "2026-11-06T23:38:52+00:00",
+                    "releaseVersion": 1355,
+                    "summary": "Fire Blast (Salamander) now deals 75% of its normal damage to players.",
+                    "url": "/versions/1355#v1355",
+                    "version": 1355,
+                    "versionLabel": "v1355",
+                    "versions": [
+                      1355
+                    ]
+                  }
+                ]
+              },
+              {
+                "assetId": 12436998822,
+                "hidden": false,
+                "label": "Fish Spear Throw",
+                "name": "Fish Spear Throw",
+                "perks": [
+                  {
+                    "key": "fishthrow",
+                    "name": "Fish Throw"
+                  },
+                  {
+                    "key": "spearThrow",
+                    "name": "Spear Throw"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": null,
+                "slug": "fish-spear-throw",
+                "thumbnailUrl": "/assets/12436998822/thumbnail",
+                "url": "/abilities/adventurer/rock-throw?variation=fish-spear-throw"
+              },
+              {
+                "assetId": 12435981543,
+                "hidden": false,
+                "label": "Magical Spear Throw",
+                "name": "Magical Spear Throw",
+                "perks": [
+                  {
+                    "key": "spearThrow",
+                    "name": "Spear Throw"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": "INT > STR",
+                "slug": "magical-spear-throw",
+                "thumbnailUrl": "/assets/12435981543/thumbnail",
+                "updatedAt": "2026-09-04T20:57:33+00:00",
+                "url": "/abilities/adventurer/rock-throw?variation=magical-spear-throw",
+                "versionHistory": [
+                  {
+                    "changeType": "updated",
+                    "details": [
+                      "Damage multiplier decreased by 0.5 while its radius, mana cost, and projectile-speed changes remain intact."
+                    ],
+                    "publishedAt": "2026-09-04T20:57:33+00:00",
+                    "releaseVersion": 1319,
+                    "summary": "Magical Spear Throw now deals less damage.",
+                    "url": "/versions/1319",
+                    "version": 1319,
+                    "versionLabel": "v1319",
+                    "versions": [
+                      1319
+                    ]
+                  }
+                ]
+              },
+              {
+                "assetId": null,
+                "hidden": true,
+                "label": "Arcane Molotov Throw",
+                "name": "Arcane Molotov Throw",
+                "perks": [
+                  {
+                    "key": "molotov",
+                    "name": "Molotov Throw"
+                  }
+                ],
+                "requirementHtml": null,
+                "requirementText": "INT > STR",
+                "slug": "arcane-molotov-throw",
+                "thumbnailUrl": "/assets/2528902271/thumbnail",
+                "url": "/abilities/adventurer/rock-throw?variation=arcane-molotov-throw"
+              }
+            ],
+            "versionHistory": [
+              {
+                "changeType": "updated",
+                "details": [
+                  "Added magicalSpear for spearThrow when final INT is greater than final STR, with blue emissive spear trail visuals.",
+                  "spearThrow active perk changes throw damage type to adaptive, and magicExplosion was added as a .5x base magical AoE damage source.",
+                  "Spear throws now hide equipment slot 1, keep the weapon hidden after the throw animation, and restore the slot 1 manifest manually on landing/expiry.",
+                  "Magical spear no longer uses the regular spear pierce continuation, uses magicAttack, spawns expanding magicExplosion VFX/light/particles, and deals radius",
+                  "Mushroom bomb impact handling now requires hitPart, gets the caster via ability_utilities.getCastingPlayer, exits without a caster, and uses that caster for"
+                ],
+                "publishedAt": "2026-06-20T01:10:48+00:00",
+                "releaseVersion": 1302,
+                "summary": "Rock throw now adds an INT-scaling magical spear variant alongside damage, weapon visibility, impact, and mushroom bomb handling changes.",
+                "url": "/versions/1302",
+                "version": 1302,
+                "versionLabel": "v1302",
+                "versions": [
+                  1302
+                ]
+              },
+              {
+                "changeType": "updated",
+                "details": [
+                  "Rock Throw hit security changes to one hit per player per source tag.",
+                  "Impact feedback now uses the shared impactPart effect and positional sound playback."
+                ],
+                "publishedAt": "2026-05-15T14:41:11+00:00",
+                "releaseVersion": 1296,
+                "summary": "Rock Throw's hit limits and impact feedback were updated.",
+                "url": "/versions/1296",
+                "version": 1296,
+                "versionLabel": "v1296",
+                "versions": [
+                  1296
+                ]
+              }
+            ]
+          }
+        ],
+        "assetId": 70449658360802,
+        "assetType": "abilityBook",
+        "bookColor": {
+          "b": 88,
+          "g": 118,
+          "r": 155
+        },
+        "bookColorCss": "rgb(155, 118, 88)",
+        "category": "ability book",
+        "description": "A fledgling explorer can pick up many neat tricks on their adventures.",
+        "extraMetadata": {},
+        "maxLevel": 9,
+        "metadata": {
+          "lockPointsOnClassChange": true,
+          "pointsGainPerLevel": 1,
+          "startingPoints": 0
+        },
+        "minLevel": 1,
+        "name": "Adventurer",
+        "pointsPerLevel": 1,
+        "secret": false,
+        "slug": "adventurer",
+        "thumbnailUrl": "/abilities/adventurer/thumbnail",
+        "url": "/abilities/adventurer"
+      }
+    ],
+    "monsters": [
+      {
+        "assetId": null,
+        "assetType": "monster",
+        "behaviorNotes": [],
+        "behaviorSummary": null,
+        "bookColor": "#3d63cc",
+        "bookListed": true,
+        "bookSection": "Page 5",
+        "bookStats": {
+          "kind": "stats",
+          "stats": [
+            {
+              "key": "level",
+              "label": "Level",
+              "value": "Lvl. 47"
+            },
+            {
+              "key": "health",
+              "label": "Health",
+              "value": "40,020 HP"
+            },
+            {
+              "key": "defense",
+              "label": "Defense",
+              "value": "234 DEF"
+            },
+            {
+              "experienceType": "regular",
+              "key": "experience",
+              "label": "Experience",
+              "value": "12,095 XP"
+            }
+          ]
+        },
+        "bookStatsContext": {
+          "overxpMultiplier": 1,
+          "scope": "global",
+          "xpMultiplier": 1
+        },
+        "bossType": null,
+        "bounties": [
+          {
+            "goldReward": 94800,
+            "kills": 50,
+            "milestone": 1
+          },
+          {
+            "goldReward": 284400,
+            "kills": 150,
+            "milestone": 2
+          },
+          {
+            "goldReward": 853200,
+            "kills": 450,
+            "milestone": 3
+          }
+        ],
+        "category": "Monster",
+        "combatStats": {
+          "damage": 351,
+          "exp": 12095.08008818244,
+          "level": 47,
+          "maxHealth": 40020,
+          "overexp": 0,
+          "walkspeed": 9
+        },
+        "createdAt": "2026-10-04T20:23:07+00:00",
+        "description": null,
+        "differences": null,
+        "dropNote": null,
+        "drops": [
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 95222648586499,
+            "chance": 1,
+            "chanceText": "100%",
+            "condition": "",
+            "imageUrl": "/items/rotten-wood/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Rotten Wood",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/rotten-wood/thumbnail?size=150",
+            "url": "/items/rotten-wood"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 5975916779,
+            "chance": 0.0009765625,
+            "chanceText": "0.0976%",
+            "condition": "",
+            "imageUrl": "/items/anti-slime-helmet/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Anti-slime-ambush Device",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/anti-slime-helmet/thumbnail?size=150",
+            "url": "/items/anti-slime-helmet"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 6700148607,
+            "chance": 0.0009765625,
+            "chanceText": "0.0976%",
+            "condition": "",
+            "imageUrl": "/items/artifact-aegis/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Artifact Aegis",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/artifact-aegis/thumbnail?size=150",
+            "url": "/items/artifact-aegis"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 5975916446,
+            "chance": 0.0009765625,
+            "chanceText": "0.0976%",
+            "condition": "",
+            "imageUrl": "/items/scrap-bow/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Scrap Bow",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/scrap-bow/thumbnail?size=150",
+            "url": "/items/scrap-bow"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 5990671453,
+            "chance": 0.0006510416666666666,
+            "chanceText": "0.0651%",
+            "condition": "",
+            "imageUrl": "/items/slime-mage-hat/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Slime Infused Hat",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/slime-mage-hat/thumbnail?size=150",
+            "url": "/items/slime-mage-hat"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 5975917068,
+            "chance": 0.0011235955056179776,
+            "chanceText": "0.112%",
+            "condition": "",
+            "imageUrl": "/items/broken-bottle/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Broken Bottle",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/broken-bottle/thumbnail?size=150",
+            "url": "/items/broken-bottle"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 5975916283,
+            "chance": 0.0009765625,
+            "chanceText": "0.0976%",
+            "condition": "",
+            "imageUrl": "/items/scrap-sword/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Scrap Sword",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/scrap-sword/thumbnail?size=150",
+            "url": "/items/scrap-sword"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 5975916845,
+            "chance": 0.00048828125,
+            "chanceText": "0.0488%",
+            "condition": "",
+            "imageUrl": "/items/hobo-armor/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Hobo Armor",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/hobo-armor/thumbnail?size=150",
+            "url": "/items/hobo-armor"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 88674005007923,
+            "chance": 0.0009765625,
+            "chanceText": "0.0976%",
+            "condition": "",
+            "imageUrl": "/items/hobo-boots/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Hobo Pants",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/hobo-boots/thumbnail?size=150",
+            "url": "/items/hobo-boots"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 5975916151,
+            "chance": 0.0009765625,
+            "chanceText": "0.0976%",
+            "condition": "",
+            "imageUrl": "/items/headslime/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Headslime",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/headslime/thumbnail?size=150",
+            "url": "/items/headslime"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 5975916016,
+            "chance": 0.0009765625,
+            "chanceText": "0.0976%",
+            "condition": "",
+            "imageUrl": "/items/slime-staff/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Slime Staff",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/slime-staff/thumbnail?size=150",
+            "url": "/items/slime-staff"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 5975917150,
+            "chance": 0.0009765625,
+            "chanceText": "0.0976%",
+            "condition": "",
+            "imageUrl": "/items/barrel-hammer/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Barrel Hammer",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/barrel-hammer/thumbnail?size=150",
+            "url": "/items/barrel-hammer"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 10662530846,
+            "chance": 0.01,
+            "chanceText": "1%",
+            "condition": "",
+            "imageUrl": "/items/quest-slime-sample/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Slime Sample",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/quest-slime-sample/thumbnail?size=150",
+            "url": "/items/quest-slime-sample"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 96501900961902,
+            "chance": 0.01,
+            "chanceText": "1%",
+            "condition": "",
+            "imageUrl": "/items/decrepit-shard/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Decrepit Ornate Shard",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/decrepit-shard/thumbnail?size=150",
+            "url": "/items/decrepit-shard"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 83597174387165,
+            "chance": 0.01,
+            "chanceText": "1%",
+            "condition": "",
+            "imageUrl": "/items/slime-fish/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Reanimated Fish",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/slime-fish/thumbnail?size=150",
+            "url": "/items/slime-fish"
+          }
+        ],
+        "extraMetadata": {},
+        "flavorText": null,
+        "groupOnly": false,
+        "hasImage": true,
+        "hidden": false,
+        "imageUrl": "/monster-image/acid-slime.png?v=a21c179abe",
+        "level": 47,
+        "metadata": {},
+        "module": "Acid Slime",
+        "monsterBookPage": 5,
+        "name": "Acid Slime",
+        "requirementText": null,
+        "slug": "acid-slime",
+        "spawnLocations": [],
+        "stats": {
+          "kind": "stats",
+          "stats": [
+            {
+              "label": "Health",
+              "negative": false,
+              "value": "40,020 HP"
+            },
+            {
+              "label": "Damage",
+              "negative": false,
+              "value": "351"
+            },
+            {
+              "label": "Experience",
+              "negative": false,
+              "value": "12,095.08 XP"
+            },
+            {
+              "label": "Movement speed",
+              "negative": false,
+              "value": "9"
+            }
+          ]
+        },
+        "thumbnailUrl": "/monster-image/acid-slime.png?backdrop=1&v=a21c179aber1",
+        "updatedAt": "2026-10-11T22:16:41+00:00",
+        "url": "/monsters/acid-slime",
+        "variationCount": 0,
+        "variations": [],
+        "versionHistory": [
+          {
+            "changeType": "updated",
+            "details": [
+              "Slime Sample drop chance: 1 in 96 (about 1.04%) \u2192 1%."
+            ],
+            "publishedAt": "2026-10-11T22:16:41+00:00",
+            "releaseVersion": 1337,
+            "summary": "Acid Slime drops Slime Samples slightly less often.",
+            "url": "/versions/1337#v1346",
+            "version": 1346,
+            "versionLabel": "v1346",
+            "versions": [
+              1346
+            ]
+          },
+          {
+            "changeType": "updated",
+            "details": [
+              "Base health multiplier: 2x \u2192 3x (50% more health).",
+              "Decrepit Ornate Shard base drop chance: 1 in 4,000 \u2192 1%.",
+              "Slime Fish base drop chance: previously absent \u2192 1%."
+            ],
+            "publishedAt": "2026-10-06T06:00:56+00:00",
+            "releaseVersion": 1332,
+            "summary": "Acid Slime has 50% more health and drops Decrepit Ornate Shards far more often, plus a new Slime Fish drop.",
+            "url": "/versions/1332#v1333",
+            "version": 1333,
+            "versionLabel": "v1333",
+            "versions": [
+              1333
+            ]
+          },
+          {
+            "changeType": "created",
+            "details": [],
+            "publishedAt": "2026-10-04T20:23:07+00:00",
+            "releaseVersion": 1330,
+            "summary": "Added Acid Slime, a level 47 slime whose slam leaves spreading acid puddles that deal magical damage and drain stamina.",
+            "url": "/versions/1330#v1331",
+            "version": 1331,
+            "versionLabel": "v1331",
+            "versions": [
+              1331
+            ]
+          }
+        ]
+      },
+      {
+        "assetId": null,
+        "assetType": "monster",
+        "behaviorNotes": [],
+        "behaviorSummary": null,
+        "bookColor": "#ffff7f",
+        "bookListed": true,
+        "bookSection": "Page 4",
+        "bookStats": {
+          "kind": "stats",
+          "stats": [
+            {
+              "key": "level",
+              "label": "Level",
+              "value": "Lvl. 40"
+            },
+            {
+              "key": "health",
+              "label": "Health",
+              "value": "5,490 HP"
+            },
+            {
+              "key": "defense",
+              "label": "Defense",
+              "value": "199 DEF"
+            },
+            {
+              "experienceType": "regular",
+              "key": "experience",
+              "label": "Experience",
+              "value": "3,134 XP"
+            }
+          ]
+        },
+        "bookStatsContext": {
+          "overxpMultiplier": 1,
+          "scope": "global",
+          "xpMultiplier": 1
+        },
+        "bossType": null,
+        "bounties": [
+          {
+            "goldReward": 59520,
+            "kills": 40,
+            "milestone": 1
+          },
+          {
+            "goldReward": 178560,
+            "kills": 120,
+            "milestone": 2
+          },
+          {
+            "goldReward": 535680,
+            "kills": 360,
+            "milestone": 3
+          }
+        ],
+        "category": "Monster",
+        "combatStats": {
+          "damage": 199,
+          "exp": 3134.720374388109,
+          "level": 40,
+          "maxHealth": 5490,
+          "overexp": 0,
+          "walkspeed": 4
+        },
+        "description": "A member of the Sun Bandits. The Sun Bandits are some of the only remaining pure-blooded Qumtarians in the entire world. They're completely ignorant to the world outside of the Whispering Dunes, the farthest they've ever gone was The Gauntlet. Their low intelligence makes them more dangerous to not only others, but themselves too.",
+        "differences": null,
+        "dropNote": null,
+        "drops": [
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 102990589514642,
+            "chance": 1,
+            "chanceText": "100%",
+            "condition": "",
+            "imageUrl": "/items/dusty-cloth/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Dusty Cloth",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/dusty-cloth/thumbnail?size=150",
+            "url": "/items/dusty-cloth"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 2744385499,
+            "chance": 0.05,
+            "chanceText": "5%",
+            "condition": "",
+            "imageUrl": "/items/health-potion-3/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Orange Potion",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/health-potion-3/thumbnail?size=150",
+            "url": "/items/health-potion-3"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 2661683887,
+            "chance": 0.02,
+            "chanceText": "2%",
+            "condition": "",
+            "imageUrl": "/items/mighty-sub/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Mighty Sub",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/mighty-sub/thumbnail?size=150",
+            "url": "/items/mighty-sub"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 4626456263,
+            "chance": 0.005,
+            "chanceText": "0.5%",
+            "condition": "",
+            "imageUrl": "/items/sand-ravaged-scimitar/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Sand-ravaged Scimitar",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/sand-ravaged-scimitar/thumbnail?size=150",
+            "url": "/items/sand-ravaged-scimitar"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 6684552640,
+            "chance": 0.01,
+            "chanceText": "1%",
+            "condition": "",
+            "imageUrl": "/items/ancient-scroll/thumbnail?variation=6&size=150",
+            "itemDetails": "",
+            "name": "Ancient Weapon STR Scroll 15%",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/ancient-scroll/thumbnail?variation=6&size=150",
+            "url": "/items/ancient-scroll?variation=6"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 4626455994,
+            "chance": 0.01,
+            "chanceText": "1%",
+            "condition": "",
+            "imageUrl": "/items/broken-crystal-beetle/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Broken Crystal Beetle",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/broken-crystal-beetle/thumbnail?size=150",
+            "url": "/items/broken-crystal-beetle"
+          },
+          {
+            "amount": null,
+            "amountText": "",
+            "assetId": 4626456089,
+            "chance": 0.005,
+            "chanceText": "0.5%",
+            "condition": "",
+            "imageUrl": "/items/crystal-beetle/thumbnail?size=150",
+            "itemDetails": "",
+            "name": "Crystal Beetle",
+            "note": "",
+            "rollCount": 1,
+            "rollCountText": "1",
+            "rolls": 1,
+            "thumbnailUrl": "/items/crystal-beetle/thumbnail?size=150",
+            "url": "/items/crystal-beetle"
+          }
+        ],
+        "extraMetadata": {},
+        "flavorText": null,
+        "groupOnly": false,
+        "hasImage": true,
+        "hidden": false,
+        "imageUrl": "/monster-image/bandit.png?v=4d7e407b5f",
+        "level": 40,
+        "metadata": {
+          "locations": {
+            "entries": [
+              "The Gauntlet",
+              "Whispering Dunes"
+            ],
+            "kind": "list"
+          }
+        },
+        "module": "Bandit",
+        "monsterBookPage": 4,
+        "name": "Bandit",
+        "requirementText": null,
+        "slug": "bandit",
+        "spawnLocations": [
+          {
+            "map": "whispering-dunes",
+            "name": "Whispering Dunes",
+            "regions": 20,
+            "tags": [],
+            "url": "/maps/whispering-dunes#spawns=bandit"
+          }
+        ],
+        "stats": {
+          "kind": "stats",
+          "stats": [
+            {
+              "label": "Health",
+              "negative": false,
+              "value": "5,490 HP"
+            },
+            {
+              "label": "Damage",
+              "negative": false,
+              "value": "199"
+            },
+            {
+              "label": "Experience",
+              "negative": false,
+              "value": "3,134.72 XP"
+            },
+            {
+              "label": "Movement speed",
+              "negative": false,
+              "value": "4"
+            }
+          ]
+        },
+        "thumbnailUrl": "/monster-image/bandit.png?backdrop=1&v=4d7e407b5fr1",
+        "url": "/monsters/bandit",
+        "variationCount": 2,
+        "variations": [
+          {
+            "assetId": 119445193663016,
+            "assetType": "monsterVariation",
+            "behaviorNotes": [],
+            "behaviorSummary": null,
+            "bookColor": "#cc3b3d",
+            "bookListed": true,
+            "bookSection": "Bosses",
+            "bookStats": {
+              "kind": "stats",
+              "stats": [
+                {
+                  "key": "level",
+                  "label": "Level",
+                  "value": "Lvl. 45"
+                },
+                {
+                  "key": "health",
+                  "label": "Health",
+                  "value": "633,000 HP"
+                },
+                {
+                  "key": "defense",
+                  "label": "Defense",
+                  "value": "224 DEF"
+                },
+                {
+                  "experienceType": "regular",
+                  "key": "experience",
+                  "label": "Experience",
+                  "value": "306,995 XP"
+                }
+              ]
+            },
+            "bookStatsContext": {
+              "overxpMultiplier": 1,
+              "scope": "global",
+              "xpMultiplier": 1
+            },
+            "bossType": "Miniboss",
+            "bounties": [
+              {
+                "goldReward": 177600,
+                "kills": 1,
+                "milestone": 1
+              },
+              {
+                "goldReward": 532800,
+                "kills": 3,
+                "milestone": 2
+              },
+              {
+                "goldReward": 1776000,
+                "kills": 10,
+                "milestone": 3
+              }
+            ],
+            "category": "Miniboss",
+            "combatStats": {
+              "damage": 448,
+              "exp": 306995.5130186669,
+              "level": 45,
+              "maxHealth": 633000,
+              "overexp": 0,
+              "walkspeed": 4
+            },
+            "description": "Perhaps the most insane member of the Sun Bandits, and the greatest menace in the Whispering Dunes. Most Sun Bandits avoid associating with him since he doesn't recognize any of them as being allies. Azariah spends most of his time in the little cave he dug out for himself.",
+            "differences": {
+              "notes": [],
+              "stats": [
+                {
+                  "base": 40,
+                  "label": "Level",
+                  "variant": 45
+                },
+                {
+                  "base": "5,490 HP",
+                  "label": "Health",
+                  "variant": "633,000 HP"
+                },
+                {
+                  "base": "199",
+                  "label": "Damage",
+                  "variant": "448"
+                },
+                {
+                  "base": "3,134.72 XP",
+                  "label": "Experience",
+                  "variant": "306,995.51 XP"
+                }
+              ]
+            },
+            "dropNote": "Chances are shown per loot roll. Repeated rolls are labeled on each item; their percentages are not added together. Quantities are per successful roll.",
+            "drops": [
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 4626456089,
+                "chance": 1,
+                "chanceText": "100%",
+                "condition": "",
+                "imageUrl": "/items/crystal-beetle/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Crystal Beetle",
+                "note": "1\u20133 loot rolls; 100% chance per roll.",
+                "rollCount": {
+                  "max": 3,
+                  "min": 1
+                },
+                "rollCountText": "1\u20133",
+                "rolls": 1,
+                "thumbnailUrl": "/items/crystal-beetle/thumbnail?size=150",
+                "url": "/items/crystal-beetle"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 4582252196,
+                "chance": 0.2,
+                "chanceText": "20%",
+                "condition": "",
+                "imageUrl": "/items/azariah-edge/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Azariah's Edge",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/azariah-edge/thumbnail?size=150",
+                "url": "/items/azariah-edge"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 124894670246484,
+                "chance": 0.1,
+                "chanceText": "10%",
+                "condition": "",
+                "imageUrl": "/items/azariah-mask/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Azariah's Mask",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/azariah-mask/thumbnail?size=150",
+                "url": "/items/azariah-mask"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 112576943450082,
+                "chance": 0.1,
+                "chanceText": "10%",
+                "condition": "",
+                "imageUrl": "/items/azariah-armor/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Azariah's Armor",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/azariah-armor/thumbnail?size=150",
+                "url": "/items/azariah-armor"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 100046289842458,
+                "chance": 0.1,
+                "chanceText": "10%",
+                "condition": "",
+                "imageUrl": "/items/azariah-boots/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Azariah's Boots",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/azariah-boots/thumbnail?size=150",
+                "url": "/items/azariah-boots"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 6896935470,
+                "chance": 0.2,
+                "chanceText": "20%",
+                "condition": "",
+                "imageUrl": "/items/cursed-scroll/thumbnail?variation=1&size=150",
+                "itemDetails": "",
+                "name": "Cursed Weapon ATK Scroll 60%",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/cursed-scroll/thumbnail?variation=1&size=150",
+                "url": "/items/cursed-scroll?variation=1"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 6684552640,
+                "chance": 0.35,
+                "chanceText": "35%",
+                "condition": "",
+                "imageUrl": "/items/ancient-scroll/thumbnail?variation=10&size=150",
+                "itemDetails": "",
+                "name": "Ancient Armor STR Scroll 15%",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/ancient-scroll/thumbnail?variation=10&size=150",
+                "url": "/items/ancient-scroll?variation=10"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 6684552640,
+                "chance": 0.15,
+                "chanceText": "15%",
+                "condition": "",
+                "imageUrl": "/items/ancient-scroll/thumbnail?variation=14&size=150",
+                "itemDetails": "",
+                "name": "Ancient Headgear STR Scroll 15%",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/ancient-scroll/thumbnail?variation=14&size=150",
+                "url": "/items/ancient-scroll?variation=14"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 2863286550,
+                "chance": 0.005,
+                "chanceText": "0.5%",
+                "condition": "",
+                "imageUrl": "/items/item-dye-red/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Red Dye",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/item-dye-red/thumbnail?size=150",
+                "url": "/items/item-dye-red"
+              }
+            ],
+            "extraMetadata": {},
+            "flavorText": null,
+            "groupOnly": false,
+            "hasImage": true,
+            "hidden": false,
+            "imageUrl": "/monster-image/bandit.png?variation=aza&v=66844fe6ab",
+            "level": 45,
+            "metadata": {
+              "locations": {
+                "entries": [
+                  "Whispering Dunes"
+                ],
+                "kind": "list"
+              },
+              "lore": {
+                "entries": [
+                  "He wasn't unlike a regular Sun Bandit, but he was driven insane by the whispering voices of the night. The only thing that soothed him was the feeling of blood on his skin, or the taste of blood and human flesh. His savage behavior has made many stop seeing him as a human, but as a monster much like Sarakis or the Scarabs."
+                ],
+                "kind": "list"
+              },
+              "traits": {
+                "entries": [
+                  "Resilient"
+                ],
+                "kind": "list"
+              }
+            },
+            "module": "Bandit",
+            "monsterBookPage": 99,
+            "name": "Azariah the Blood-crazed",
+            "parent": {
+              "name": "Bandit",
+              "slug": "bandit",
+              "url": "/monsters/bandit"
+            },
+            "parentName": "Bandit",
+            "parentSlug": "bandit",
+            "requirementText": null,
+            "slug": "aza",
+            "spawnLocations": [],
+            "stats": {
+              "kind": "stats",
+              "stats": [
+                {
+                  "label": "Health",
+                  "negative": false,
+                  "value": "633,000 HP"
+                },
+                {
+                  "label": "Damage",
+                  "negative": false,
+                  "value": "448"
+                },
+                {
+                  "label": "Experience",
+                  "negative": false,
+                  "value": "306,995.51 XP"
+                },
+                {
+                  "label": "Movement speed",
+                  "negative": false,
+                  "value": "4"
+                }
+              ]
+            },
+            "thumbnailUrl": "/monster-image/bandit.png?variation=aza&backdrop=1&v=66844fe6abr1",
+            "url": "/monsters/bandit?variation=aza",
+            "variation": "aza",
+            "variationCount": 0
+          },
+          {
+            "assetId": null,
+            "assetType": "monsterVariation",
+            "behaviorNotes": [],
+            "behaviorSummary": null,
+            "bookColor": "#ffff7f",
+            "bookListed": false,
+            "bookSection": null,
+            "bookStats": {
+              "kind": "stats",
+              "stats": [
+                {
+                  "key": "level",
+                  "label": "Level",
+                  "value": "Lvl. 40"
+                },
+                {
+                  "key": "health",
+                  "label": "Health",
+                  "value": "5,490 HP"
+                },
+                {
+                  "experienceType": "regular",
+                  "key": "experience",
+                  "label": "Experience",
+                  "value": "3,134 XP"
+                }
+              ]
+            },
+            "bookStatsContext": {
+              "overxpMultiplier": 1,
+              "scope": "global",
+              "xpMultiplier": 1
+            },
+            "bossType": null,
+            "bounties": [],
+            "category": "Monster",
+            "combatStats": {
+              "damage": 199,
+              "exp": 3134.720374388109,
+              "level": 40,
+              "maxHealth": 5490,
+              "overexp": 0,
+              "walkspeed": 4
+            },
+            "description": null,
+            "differences": {
+              "notes": [],
+              "stats": []
+            },
+            "dropNote": null,
+            "drops": [
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 5975916283,
+                "chance": 0.0009765625,
+                "chanceText": "0.0976%",
+                "condition": "",
+                "imageUrl": "/items/scrap-sword/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Scrap Sword",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/scrap-sword/thumbnail?size=150",
+                "url": "/items/scrap-sword"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 5975916845,
+                "chance": 0.00048828125,
+                "chanceText": "0.0488%",
+                "condition": "",
+                "imageUrl": "/items/hobo-armor/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Hobo Armor",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/hobo-armor/thumbnail?size=150",
+                "url": "/items/hobo-armor"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 88674005007923,
+                "chance": 0.0009765625,
+                "chanceText": "0.0976%",
+                "condition": "",
+                "imageUrl": "/items/hobo-boots/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Hobo Pants",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/hobo-boots/thumbnail?size=150",
+                "url": "/items/hobo-boots"
+              },
+              {
+                "amount": null,
+                "amountText": "",
+                "assetId": 5975916151,
+                "chance": 0.0009765625,
+                "chanceText": "0.0976%",
+                "condition": "",
+                "imageUrl": "/items/headslime/thumbnail?size=150",
+                "itemDetails": "",
+                "name": "Headslime",
+                "note": "",
+                "rollCount": 1,
+                "rollCountText": "1",
+                "rolls": 1,
+                "thumbnailUrl": "/items/headslime/thumbnail?size=150",
+                "url": "/items/headslime"
+              }
+            ],
+            "extraMetadata": {},
+            "flavorText": null,
+            "groupOnly": false,
+            "hasImage": true,
+            "hidden": false,
+            "imageUrl": "/monster-image/bandit.png?variation=hobo&v=ff91cfe45e",
+            "level": 40,
+            "metadata": {},
+            "module": "Bandit",
+            "monsterBookPage": null,
+            "name": "Hobo Bandit",
+            "parent": {
+              "name": "Bandit",
+              "slug": "bandit",
+              "url": "/monsters/bandit"
+            },
+            "parentName": "Bandit",
+            "parentSlug": "bandit",
+            "requirementText": null,
+            "slug": "hobo",
+            "spawnLocations": [],
+            "stats": {
+              "kind": "stats",
+              "stats": [
+                {
+                  "label": "Health",
+                  "negative": false,
+                  "value": "5,490 HP"
+                },
+                {
+                  "label": "Damage",
+                  "negative": false,
+                  "value": "199"
+                },
+                {
+                  "label": "Experience",
+                  "negative": false,
+                  "value": "3,134.72 XP"
+                },
+                {
+                  "label": "Movement speed",
+                  "negative": false,
+                  "value": "4"
+                }
+              ]
+            },
+            "thumbnailUrl": "/monster-image/bandit.png?variation=hobo&backdrop=1&v=ff91cfe45er1",
+            "updatedAt": "2026-09-18T21:41:16+00:00",
+            "url": "/monsters/bandit?variation=hobo",
+            "variation": "hobo",
+            "variationCount": 0,
+            "versionHistory": [
+              {
+                "changeType": "updated",
+                "details": [
+                  "Hobo Pants base drop chance: previously absent \u2192 1 in 1,024."
+                ],
+                "publishedAt": "2026-09-18T21:41:16+00:00",
+                "releaseVersion": 1323,
+                "summary": "Hobo Bandit can now drop Hobo Pants.",
+                "url": "/versions/1323#v1323",
+                "version": 1323,
+                "versionLabel": "v1323",
+                "versions": [
+                  1323
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "maps": [
+      {
+        "assetType": "map",
+        "counts": {
+          "characters": 107,
+          "monsters": 1,
+          "portals": 7,
+          "quests": 7,
+          "shops": 9,
+          "spawnRegions": 8
+        },
+        "imageUrl": "/map-image/nilgarf.webp?v=8e38d7c372",
+        "keyArtThumbnailUrl": "/maps/nilgarf/key-art.png?size=384",
+        "keyArtUrl": "/maps/nilgarf/key-art.png",
+        "locationKey": "nilgarf",
+        "name": "Nilgarf",
+        "placeId": 2119298605,
+        "slug": "nilgarf",
+        "tags": [],
+        "url": "/maps/nilgarf"
+      }
+    ]
+  },
+  "build": {
+    "builtAt": "2026-11-14T19:42:20+00:00",
+    "id": "7455512f2876fa9e"
+  },
+  "constants": {
+    "currencyTiers": [
+      {
+        "assetId": 15767227711,
+        "color": {
+          "b": 255,
+          "g": 211,
+          "r": 123
+        },
+        "divisor": 1000000000,
+        "image": "rbxassetid://15767227711",
+        "min": 1000000000,
+        "name": "Platinum",
+        "tier": 4
+      },
+      {
+        "assetId": 2536432897,
+        "color": {
+          "b": 123,
+          "g": 236,
+          "r": 255
+        },
+        "divisor": 1000000,
+        "image": "rbxassetid://2536432897",
+        "min": 1000000,
+        "name": "Gold",
+        "tier": 4
+      },
+      {
+        "assetId": 2535600034,
+        "color": {
+          "b": 223,
+          "g": 223,
+          "r": 223
+        },
+        "divisor": 1000,
+        "image": "rbxassetid://2535600034",
+        "min": 1000,
+        "name": "Silver",
+        "tier": 2
+      },
+      {
+        "assetId": 2535600080,
+        "color": {
+          "b": 149,
+          "g": 170,
+          "r": 255
+        },
+        "divisor": 1,
+        "image": "rbxassetid://2535600080",
+        "min": 0,
+        "name": "Bronze",
+        "tier": 1
+      }
+    ],
+    "tierColors": {
+      "-1": {
+        "b": 178,
+        "g": 178,
+        "name": "Light Gray",
+        "r": 178
+      },
+      "1": {
+        "b": 255,
+        "g": 255,
+        "name": "Gray",
+        "r": 255
+      },
+      "2": {
+        "b": 255,
+        "g": 241,
+        "name": "Light Blue",
+        "r": 112
+      },
+      "3": {
+        "b": 255,
+        "g": 116,
+        "name": "Deep Blue",
+        "r": 30
+      },
+      "4": {
+        "b": 255,
+        "g": 55,
+        "name": "Purple",
+        "r": 165
+      },
+      "5": {
+        "b": 87,
+        "g": 42,
+        "name": "Red",
+        "r": 235
+      },
+      "6": {
+        "b": 0,
+        "g": 125,
+        "name": "Orange",
+        "r": 255
+      },
+      "7": {
+        "b": 0,
+        "g": 238,
+        "name": "Gold",
+        "r": 255
+      },
+      "8": {
+        "b": 150,
+        "g": 200,
+        "name": "Aquamarine",
+        "r": 0
+      },
+      "9": {
+        "b": 0,
+        "g": 255,
+        "name": "Green",
+        "r": 0
+      }
+    }
+  },
+  "counts": {
+    "abilities": 174,
+    "byType": {
+      "ability": 18,
+      "item": 1467,
+      "map": 17,
+      "monster": 129
+    },
+    "hidden": 21,
+    "maps": 17,
+    "monsterVariations": 89,
+    "monsters": 211,
+    "total": 1614,
+    "variations": 866,
+    "versions": 23,
+    "visible": 1593
+  },
+  "version": 1,
+  "versions": [
+    {
+      "commentCount": 0,
+      "counts": {
+        "byType": {
+          "abilityVariant": 2,
+          "item": 20,
+          "itemVariation": 3,
+          "map": 1,
+          "monster": 5,
+          "monsterVariation": 1
+        },
+        "created": 14,
+        "total": 32,
+        "updated": 18
+      },
+      "fromVersion": 1357,
+      "groups": [
+        {
+          "count": 6,
+          "key": "newItems",
+          "title": "New Items"
+        },
+        {
+          "count": 3,
+          "key": "newVanity",
+          "title": "New Vanity"
+        },
+        {
+          "count": 1,
+          "key": "newAbilities",
+          "title": "New Abilities"
+        },
+        {
+          "count": 3,
+          "key": "newMonsters",
+          "title": "New Monsters"
+        },
+        {
+          "count": 1,
+          "key": "newMaps",
+          "title": "New Maps"
+        },
+        {
+          "count": 14,
+          "key": "updatedItems",
+          "title": "Updated Items"
+        },
+        {
+          "count": 1,
+          "key": "updatedAbilities",
+          "title": "Updated Abilities"
+        },
+        {
+          "count": 3,
+          "key": "updatedMonsters",
+          "title": "Updated Monsters"
+        }
+      ],
+      "headline": "Lavalands",
+      "heroImage": {
+        "alt": "A blue-robed adventurer with a staff and a horned, black-armored giant with glowing red eyes fight swarms of giant mosquitoes and ants in a smoldering red canyon.",
+        "avifSrc": "/static/images/updates/brazen-minotaurs-1358-official-1920.avif",
+        "avifSrcset": "/static/images/updates/brazen-minotaurs-1358-official-960.avif 960w, /static/images/updates/brazen-minotaurs-1358-official-1920.avif 1920w",
+        "caption": "Lavalands update artwork supplied by the project owner.",
+        "height": 1080,
+        "src": "/static/images/updates/brazen-minotaurs-1358-official-1920.jpg",
+        "srcset": "/static/images/updates/brazen-minotaurs-1358-official-960.jpg 960w, /static/images/updates/brazen-minotaurs-1358-official-1920.jpg 1920w",
+        "type": "image/jpeg",
+        "webpSrcset": "/static/images/updates/brazen-minotaurs-1358-official-960.webp 960w, /static/images/updates/brazen-minotaurs-1358-official-1920.webp 1920w",
+        "width": 1920
+      },
+      "includedVersions": [
+        {
+          "fromVersion": 1357,
+          "publishedAt": "2026-11-14T03:17:15+00:00",
+          "publishedBy": "MokoMaulAficionado",
+          "summary": "Added Minotaur weapons and helmets, reworked Cultist gear drops, new Slag Slime, Rant and Ancient Remains monsters, Candle Cult PvP rules and projectile pass-through.",
+          "url": "/versions/1358#v1358",
+          "version": 1358
+        },
+        {
+          "fromVersion": 1358,
+          "publishedAt": "2026-11-14T03:45:04+00:00",
+          "publishedBy": "MokoMaulAficionado",
+          "summary": "Added Brazen Horns drops to Minotaurs and the Blazen Bull and made the Blazen Bull Resilient.",
+          "url": "/versions/1358#v1359",
+          "version": 1359
+        }
+      ],
+      "lastPublishedAt": "2026-11-14T03:45:04+00:00",
+      "lastVersion": 1359,
+      "publishedAt": "2026-11-14T03:17:15+00:00",
+      "publishedBy": "MokoMaulAficionado",
+      "publishers": [
+        "MokoMaulAficionado"
+      ],
+      "summary": "Beyond the scorched edge of Desolation's Hand lies Lavalands, a molten level 60 frontier where Fire Ants, Magma Slimes, Rants and Minotaurs stalk the cooling rock, Baby Dragons prowl the flows, and the Candle Cult's Kindlers keep their flames burning while Avanth Flamewalker recruits a new generation of Dragon Slayers. Minotaurs now carry the Minoaxe, the new Minotaur Hammer and Brazen Horns into battle, Cultists drop a reworked set of level 60 Cultist and High Cultist gear, and projectiles now pass harmlessly through anyone you can't damage.",
+      "updateType": "Major Update",
+      "url": "/versions/1358",
+      "version": 1358,
+      "versionLabel": "1358\u20131359",
+      "viewCount": 0
+    }
+  ]
+}

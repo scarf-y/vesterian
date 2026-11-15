@@ -1,13 +1,52 @@
 # Vesterian
 
-Discovery and design work for a Discord information bot backed by the official [Vesteria Database](https://db.playvesteria.com).
+A Discord information bot backed by the official [Vesteria Database](https://db.playvesteria.com), with ten slash commands, exact-variant lookup, private replies, pagination, caching, and request limits.
 
-Start with the [bot design](docs/bot-design.md) for commands, source updates, request limits, and security, or the [site and API route map](docs/vesteria-route-map.md) for endpoint details. This repository currently contains discovery code and design artifacts; the Discord bot has not been implemented yet.
+Read the [command walkthrough](docs/commands.md) for every option, reply and interaction. The [bot design](docs/bot-design.md) describes the broader roadmap; the [route map](docs/vesteria-route-map.md) documents the source API. This is a single-process functional release. Runtime limits are in the Python modules; the example policy JSON is not loaded.
+
+## Run the bot
+
+Requires Python 3.11 or newer. On Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python -m pip install -e . --no-deps
+```
+
+Create a Discord application/bot in the Developer Portal. Install it to a test server using the `bot` and `applications.commands` scopes. Use only the channel access and reply/embed permissions needed; do not grant Administrator or enable privileged intents. This implementation receives interactions through the Gateway, so leave the Interactions Endpoint URL unset.
+
+Provide `DISCORD_TOKEN` through your local environment or deployment secret store. `.env.example` documents the variable; `.env` files are not loaded automatically. Never paste the token into a Git-tracked file or chat.
+
+Register commands to a test server and start the bot (replace the example server ID):
+
+```powershell
+.\.venv\Scripts\python -m vesterian.bot --sync --guild 123456789012345678
+```
+
+For subsequent starts, omit `--sync`. To register globally, run once with `--sync` and no `--guild`; remove test-guild command registrations in Discord when moving to global registration to avoid overlapping command sets. Sync is an intentional operation, not something performed on every reconnect.
+
+```powershell
+.\.venv\Scripts\python -m vesterian.bot
+```
+
+The first catalog refresh runs in the background; `/help` and `/status` work while it loads. `.runtime/catalog.json` stores the last accepted catalog. A cold start with no usable catalog explains that data commands are not ready. No credentials or interaction tokens are saved there. Run only one instance; shared quotas and multi-instance coordination are future work.
+
+## Tests
+
+```powershell
+.\.venv\Scripts\python -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python -m pytest -q
+.\.venv\Scripts\python -m ruff check vesterian tests
+```
+
+Tests use reduced captured responses and mocked Discord/HTTP transports; they need no credentials or network access. They cover command views, exact variants, ambiguity, code expiry, market freshness, catalog replacement, shared fetches, rate limits, safe URLs, payload bounds, private/public replies and component ownership. GitHub Actions runs the same checks on Python 3.11 and 3.13. A real Discord server check remains necessary before public rollout.
 
 ## Artifacts
 
 | File | Purpose |
 | --- | --- |
+| [Command walkthrough](docs/commands.md) | Implemented options, user interactions, failure messages and limitations |
 | [Bot design](docs/bot-design.md) | Proposed commands, architecture, update handling, rate limits, security, and implementation sequence |
 | [Policy example](config/bot-policy.example.json) | Proposed numeric defaults; not loaded or enforced by an application yet |
 | [Route map](docs/vesteria-route-map.md) | URL hierarchy, JSON endpoints, response shapes, and bot integration notes |
