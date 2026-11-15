@@ -5,7 +5,7 @@ from vesterian.data import SourceError
 
 
 def text(result):
-    return "\n".join(result.lines)
+    return "\n".join(result.lines + [name + ": " + value for name, value, _ in result.fields])
 
 
 @pytest.mark.parametrize(

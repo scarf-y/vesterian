@@ -49,7 +49,12 @@ async def test_ten_commands_are_guild_only_with_correct_options(bot):
     assert bot.intents == discord.Intents.none()
     for name in ["item", "ability", "monster", "map", "price", "codes", "updates"]:
         assert next(p for p in commands[name].parameters if p.name == "public").default is False
-    assert {c.value for c in commands["item"].parameters[1].choices} == {"overview", "sources", "crafting"}
+    assert {c.value for c in commands["item"].parameters[1].choices} == {
+        "overview",
+        "sources",
+        "crafting",
+        "details",
+    }
 
 
 async def test_private_reply_deferred_before_data_lookup(bot):

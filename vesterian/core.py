@@ -209,6 +209,7 @@ class Result:
     chart: bytes | None = None
     chart_range: str = "7d"
     chart_metric: str = "averagePrice"
+    fields: list[tuple[str, str, bool]] = field(default_factory=list)
 
     def embeds(self):
         chunks, current = [], []
@@ -221,7 +222,7 @@ class Result:
         if current:
             chunks.append("\n\n".join(current))
         embeds = []
-        for i, chunk in enumerate(chunks[:100]):
+        for chunk in chunks[:100]:
             embed = discord.Embed(
                 title=clean(self.title, 240),
                 description=(self.badge + "\n\n" if self.badge else "") + chunk,
@@ -234,8 +235,19 @@ class Result:
                 embed.set_image(url="attachment://price.png")
             elif self.image:
                 embed.set_image(url=self.image)
-            embed.set_footer(text=f"{self.note} | Page {i + 1}/{min(len(chunks), 100)}"[:1900])
             embeds.append(embed)
+        target = embeds[0]
+        for name, value, inline in self.fields:
+            for offset in range(0, max(1, len(value)), 1000):
+                part = value[offset : offset + 1000] or "Not recorded"
+                heading = clean(name, 240) + (" (continued)" if offset else "")
+                if len(target.fields) >= 25 or len(target) + len(heading) + len(part) > 5500:
+                    target = discord.Embed(title=clean(self.title, 240), url=self.url, color=self.color)
+                    embeds.append(target)
+                target.add_field(name=heading, value=part, inline=inline)
+        for i, embed in enumerate(embeds):
+            page = f" · {i + 1}/{len(embeds)}" if len(embeds) > 1 else ""
+            embed.set_footer(text=(self.note[:400] + page).strip())
         return embeds
 
 

@@ -87,7 +87,7 @@ def test_chart_excludes_legacy_and_preserves_zero_and_missing():
 async def test_chart_is_png_and_controls_reuse_cached_history(service):
     first = await service.run("price", "Holy Scroll", "chart", window="7d")
     assert first.chart.startswith(b"\x89PNG")
-    assert Image.open(io.BytesIO(first.chart)).size == (1200, 576)
+    assert Image.open(io.BytesIO(first.chart)).size == (1200, 720)
     second = await service.run("price", "Holy Scroll", "chart", window="24h", metric="medianPrice")
     assert second.chart != first.chart
     assert second.chart_range == "24h"

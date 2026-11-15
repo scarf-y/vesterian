@@ -377,7 +377,7 @@ def register(bot):
     async def item(
         interaction: discord.Interaction,
         name: app_commands.Range[str, 1, 100],
-        view: Literal["overview", "sources", "crafting"] = "overview",
+        view: Literal["overview", "sources", "crafting", "details"] = "overview",
         public: bool = False,
     ):
         await bot.respond(interaction, "item", name, view, public)
@@ -387,7 +387,7 @@ def register(bot):
     async def ability(
         interaction: discord.Interaction,
         name: app_commands.Range[str, 1, 100],
-        view: Literal["overview", "ranks"] = "overview",
+        view: Literal["overview", "ranks", "details"] = "overview",
         public: bool = False,
     ):
         await bot.respond(interaction, "ability", name, view, public)
@@ -397,7 +397,7 @@ def register(bot):
     async def monster(
         interaction: discord.Interaction,
         name: app_commands.Range[str, 1, 100],
-        view: Literal["overview", "drops", "locations"] = "overview",
+        view: Literal["overview", "drops", "locations", "details"] = "overview",
         public: bool = False,
     ):
         await bot.respond(interaction, "monster", name, view, public)

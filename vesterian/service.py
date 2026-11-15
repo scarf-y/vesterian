@@ -5,22 +5,24 @@ from urllib.parse import urlsplit
 
 from .core import Result, UserError, clean, display, label, linked, page_url, route
 from .presentation import color, media_url, money
-from .charts import ChartRenderer, RANGES, METRICS
+from .charts import ChartRenderer, RANGES, METRICS, series, volume_rows, count
+import math
+from .cards import compact
 
 VIEWS = {
-    "item": ("overview", "sources", "crafting"),
-    "ability": ("overview", "ranks"),
-    "monster": ("overview", "drops", "locations"),
+    "item": ("overview", "sources", "crafting", "details"),
+    "ability": ("overview", "ranks", "details"),
+    "monster": ("overview", "drops", "locations", "details"),
     "map": ("overview", "monsters", "npcs", "exits"),
     "price": ("summary", "chart", "history"),
 }
 HELP = {
     "search": "query:<name> [type:<item/ability/monster/map/updates>] — choose an exact match.",
-    "item": "name:<item> [view:overview/sources/crafting] — stats, acquisition, recipes and reforging.",
-    "ability": "name:<skill> [view:overview/ranks] — mechanics, requirements and separate rank paths.",
-    "monster": "name:<monster> [view:overview/drops/locations] — stats, conditional loot and known spawns.",
+    "item": "name:<item> [view:overview/sources/crafting/details] — stats, acquisition, recipes and reforging.",
+    "ability": "name:<skill> [view:overview/ranks/details] — mechanics, requirements and separate rank paths.",
+    "monster": "name:<monster> [view:overview/drops/locations/details] — stats, conditional loot and known spawns.",
     "map": "name:<map> [view:overview/monsters/npcs/exits] — inhabitants and connections.",
-    "price": "item:<item> [view:summary/history] — sales, asking prices and daily history in Mushcoins.",
+    "price": "item:<item> [view:summary/chart/history] — sales, asking prices and daily history in game currency.",
     "codes": "[show:active/all] — rewards, requirements and expiration; no redemption through the bot.",
     "updates": "[version:<number>] — latest release or a release containing that number.",
     "help": "[command:<command>] — command examples and available options.",
@@ -161,9 +163,9 @@ class Service:
         elif command == "monster":
             if view == "drops":
                 lines = sections(d, ["dropNote"]) + [
-                    f"**{linked(drop)}**\nChance per attempt: {clean(drop.get('chanceText', 'unknown'))}; "
-                    f"amount per success: {clean(drop.get('amountText') or 'not specified')}; "
-                    f"attempts: {clean(drop.get('rollCountText') or 'not specified')}\n"
+                    f"**{linked(drop)}**\n{clean(drop.get('chanceText', 'unknown'))} per attempt · "
+                    f"Quantity: {clean(drop.get('amountText') or 'not specified')} · "
+                    f"Attempts: {clean(drop.get('rollCountText') or 'not specified')}\n"
                     f"{display(drop.get('condition') or '')} {display(drop.get('note') or '')}"
                     for drop in d.get("drops", [])
                 ]
@@ -188,15 +190,32 @@ class Service:
                     linked(n) + (" — destination has no map page" if not n.get("url") else "")
                     for n in d.get(view, [])
                 ]
-        return self.result(f"{entry.name} — {view}", lines, entry.path, record)
+        result = self.result(f"{entry.name} · {view.capitalize()}", lines, entry.path, record)
+        if view == "overview":
+            compact(result, command, d)
+            if record.stale:
+                result.lines.insert(0, "⚠ **Showing saved data — the source could not be refreshed.**")
+        if command == "monster" and view == "locations" and not lines:
+            result.lines = [
+                "No information recorded for spawn locations. Open the database page or try another encounter."
+            ]
+        if command == "monster" and view == "drops" and not lines:
+            result.lines = [
+                "No drops recorded for this encounter. Try another variant or open the database page."
+            ]
+        return result
 
     def result(self, title, lines, path, record):
         note = f"{'Cached; refresh unavailable. ' if record.stale else ''}Checked {timestamp(record.checked)}"
         result = Result(title, lines, page_url(path), note)
+        if record.stale:
+            result.lines = ["⚠ **Showing saved data — the source could not be refreshed.**"] + result.lines
         d = record.data
         tier = d.get("tier")
         palette = (self.repo.catalog or {}).get("constants", {}).get("tierColors", {})
-        result.color = color(palette.get(str(tier)), color(d.get("nameColor"), color(d.get("bookColor"))))
+        result.color = (
+            color(palette.get(str(tier))) if path.startswith("/items/") and tier is not None else 0x66B99A
+        )
         if tier is not None:
             result.badge = f"**Tier {clean(tier)}**" + (
                 f" · {clean(d['itemType'])}" if d.get("itemType") else ""
@@ -234,13 +253,38 @@ class Service:
             )
             result.chart = await self.charts.draw(entry.name, d, window, metric, self.repo.clock())
             result.chart_range, result.chart_metric = window, metric
+            points, _, _ = series(d, window, metric, self.repo.clock())
+            observed = [(t, v) for t, v in points if math.isfinite(v)]
+            rows = volume_rows(d, window, self.repo.clock())
+            if observed:
+                first, last = observed[0], observed[-1]
+                change = (
+                    f"{(last[1] / first[1] - 1) * 100:+.1f}%"
+                    if len(observed) > 1 and first[1]
+                    else "Not comparable"
+                )
+                result.fields = [
+                    ("Latest recorded", money(last[1]), True),
+                    ("Change", change, True),
+                    ("Items sold", f"{sum(count(r.get('units')) for _, r in rows):,}", True),
+                    ("Transactions", f"{sum(count(r.get('purchases')) for _, r in rows):,}", True),
+                ]
+                result.lines = [
+                    f"**{METRICS[metric]} · {window}**",
+                    f"Price comparison: {first[0]:%d %b %H:%M} → {last[0]:%d %b %H:%M} UTC.",
+                    "Volume counts cover available non-legacy buckets in the selected range.",
+                ]
+                if record.stale:
+                    result.lines.insert(0, "⚠ **Showing saved data — the source could not be refreshed.**")
+            else:
+                result.lines.append("No comparable prices recorded. Try **30d** or a different metric.")
             result.thumbnail = media_url(p.path + "/thumbnail" + ("?" + p.query if p.query else ""))
             return result
         if view == "history":
             lines = [
                 f"**{clean(day['day'])} {'— legacy per-sale pricing' if day.get('legacy') else '— per-item pricing'}**\n"
                 f"Average sale: {money(day.get('averagePrice'))}; median: {money(day.get('medianPrice'))}\n"
-                f"Purchases: {day.get('purchases', '?')}; units: {day.get('units', '?')}"
+                f"Transactions: {day.get('purchases', '?')}; items sold: {day.get('units', '?') if not day.get('legacy') else 'not tracked'}"
                 for day in sorted(d.get("days", []), key=lambda d: d["day"], reverse=True)
             ]
         else:
@@ -256,6 +300,29 @@ class Service:
             "1 Platinum = 1,000 Gold = 1,000,000 Silver = 1,000,000,000 Bronze. Sales and asks are different measures."
         )
         result = self.result(f"{entry.name} — market {view}", lines, entry.path, record)
+        if view == "summary":
+            result.lines = [
+                "Completed sales and asking prices are different measures. Choose **Chart** to explore trends."
+            ]
+            for r in rows:
+                window_name = clean(r.get("window", "Market"))
+                result.fields.extend(
+                    [
+                        (window_name + " · Average sale", money(r.get("averagePrice")), True),
+                        (window_name + " · Median sale", money(r.get("medianPrice")), True),
+                        (window_name + " · Average ask", money(r.get("averageAskingPrice")), True),
+                        (
+                            window_name + " · Activity",
+                            f"{count(r.get('purchases')):,} transactions · {count(r.get('units')):,} items sold",
+                            False,
+                        ),
+                    ]
+                )
+            if not rows:
+                result.lines = ["No market activity recorded. Try **History** or choose another item."]
+            if record.stale:
+                result.lines.insert(0, "⚠ **Showing saved data — the source could not be refreshed.**")
+            result.note += " · Source updated: " + clean(d.get("updatedAt", "unknown"))
         result.thumbnail = media_url(p.path + "/thumbnail" + ("?" + p.query if p.query else ""))
         return result
 

@@ -4,6 +4,12 @@ Implemented in v0.1.0. Commands work in servers. The bot never reads normal chan
 
 ## Visual presentation and charts
 
+Overview cards now prioritize short descriptions and inline fields: item requirements and main stats, monster combat stats, ability cost/cooldown/range, and map inhabitants. Item, monster and ability **Details** views retain the fuller information. Drop rows use consistent chance/quantity/attempt labels, with conditions below. Empty location and market results suggest what to try next.
+
+Market summaries separate average sales, median sales, asking prices and activity into labeled fields. Charts include latest recorded price, percentage change between the displayed observation dates, and selected-range transaction/item totals above the image. A volume panel shows items sold alongside transactions, and the price line labels its last observed value. A single observation or a zero starting price is labeled **Not comparable** instead of inventing a percentage. Counts cover available non-legacy buckets, not guaranteed complete coverage.
+
+Freshness stays in the footer; failed refreshes also show a visible saved-data notice. Tier colors apply to items, while other cards share the same accent. Long fields paginate within Discord's size limits. Restart to use the new dropdown views; sync commands again if you want **Details** directly in slash-command options.
+
 Items now show their exact variant thumbnail, a tier badge, and the tier's color from the database. Missing tiers are not guessed. Abilities use their icons; monsters use portraits when the source marks an image available; maps show the minimap and key art.
 
 Prices and item currency values use Platinum, Gold, Silver and Bronze, retaining fractional Bronze in averages. On startup the bot reuses or creates four application-owned currency emojis from the bundled official icons. This requires no server emoji management permission. If Discord rejects emoji setup, readable colored symbols and denomination names remain available. Graphs always include the bundled currency image.
