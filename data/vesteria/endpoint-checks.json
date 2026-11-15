@@ -1,0 +1,1054 @@
+[
+  {
+    "url": "https://db.playvesteria.com/api/items",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/d32009e2d9b0daebc9d9.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "items"
+      ],
+      "count": 1453,
+      "arrays": {
+        "items": 1453
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/api/items?search=shiny%20golden%20gift",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/a410ccb5238c5a4fb4c0.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "filters",
+        "items",
+        "search"
+      ],
+      "count": 1,
+      "arrays": {
+        "items": 1
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/items?format=json&search=tier%3A7%20tag%3Astaff",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/6619e469b60e7c979bd2.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "filters",
+        "items",
+        "search"
+      ],
+      "count": 2,
+      "arrays": {
+        "items": 2
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/items/stick?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/e20a9c0a286b45c2fad2.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "assetId",
+        "assetType",
+        "autoConsume",
+        "behaviorSummary",
+        "category",
+        "craftingRecipes",
+        "description",
+        "extraMetadata",
+        "grantsAbilities",
+        "hasCustomScript",
+        "hidden",
+        "id",
+        "isImportant",
+        "itemType",
+        "metadata",
+        "name",
+        "nameColor",
+        "nameColorCss",
+        "rarity",
+        "reforgeRecipes",
+        "requiredClasses",
+        "slug",
+        "soulbound",
+        "thumbnailUrl",
+        "tier",
+        "url",
+        "usedInRecipes"
+      ],
+      "count": null,
+      "arrays": {
+        "craftingRecipes": 0,
+        "grantsAbilities": 0,
+        "reforgeRecipes": 1,
+        "requiredClasses": 0,
+        "usedInRecipes": 0
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/items/holy-scroll?variation=magnificent&format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/e68ffee0fe3a45b49c4e.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "assetId",
+        "assetType",
+        "autoConsume",
+        "behaviorSummary",
+        "category",
+        "craftingRecipes",
+        "description",
+        "extends",
+        "extraMetadata",
+        "grantsAbilities",
+        "hasCustomScript",
+        "hidden",
+        "id",
+        "isImportant",
+        "itemType",
+        "metadata",
+        "name",
+        "nameColor",
+        "nameColorCss",
+        "overrideKeys",
+        "parentName",
+        "parentSlug",
+        "parentUrl",
+        "rarity",
+        "reforgeRecipes",
+        "requiredClasses",
+        "slug",
+        "soulbound",
+        "thumbnailUrl",
+        "tier",
+        "updatedAt",
+        "url",
+        "usedInRecipes",
+        "variation",
+        "versionHistory"
+      ],
+      "count": null,
+      "arrays": {
+        "craftingRecipes": 0,
+        "grantsAbilities": 0,
+        "overrideKeys": 4,
+        "reforgeRecipes": 0,
+        "requiredClasses": 0,
+        "usedInRecipes": 0,
+        "versionHistory": 1
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/api/abilities",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/3f3f5410536453816f06.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "abilityBooks",
+        "count"
+      ],
+      "count": 18,
+      "arrays": {
+        "abilityBooks": 18
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/api/abilities?search=rock",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/bc7e2272a74de5d0b83a.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "filters",
+        "results",
+        "search"
+      ],
+      "count": 14,
+      "arrays": {
+        "results": 14
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/abilities?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/059c2137cc3b05ccabad.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "abilityBooks",
+        "count"
+      ],
+      "count": 18,
+      "arrays": {
+        "abilityBooks": 18
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/abilities/adventurer?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/c54a54be52f408e68dac.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "abilities",
+        "assetId",
+        "assetType",
+        "bookColor",
+        "bookColorCss",
+        "category",
+        "description",
+        "extraMetadata",
+        "maxLevel",
+        "metadata",
+        "minLevel",
+        "name",
+        "pointsPerLevel",
+        "secret",
+        "slug",
+        "thumbnailUrl",
+        "url"
+      ],
+      "count": null,
+      "arrays": {
+        "abilities": 29
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/abilities/adventurer/rock-throw?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/8b9174356ac5bbefb5bb.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "adaptiveAttack",
+        "assetId",
+        "assetType",
+        "book",
+        "damageType",
+        "description",
+        "equipmentAbility",
+        "grantedBy",
+        "hiddenInGame",
+        "iconUrl",
+        "id",
+        "interactions",
+        "maxRank",
+        "name",
+        "passive",
+        "rankTables",
+        "scalingType",
+        "slug",
+        "stats",
+        "thumbnailUrl",
+        "updatedAt",
+        "upgradePaths",
+        "url",
+        "variations",
+        "versionHistory"
+      ],
+      "count": null,
+      "arrays": {
+        "grantedBy": 0,
+        "interactions": 0,
+        "rankTables": 1,
+        "upgradePaths": 1,
+        "variations": 12,
+        "versionHistory": 2
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/abilities/adventurer/rock-throw?variation=boulder-throw&format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/2fee5e3de956b44e6118.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "adaptiveAttack",
+        "assetId",
+        "assetType",
+        "behaviorNotes",
+        "damageType",
+        "description",
+        "differences",
+        "hidden",
+        "interactions",
+        "label",
+        "lines",
+        "name",
+        "parent",
+        "perkCards",
+        "perks",
+        "rankTables",
+        "relatedVariations",
+        "requirementHtml",
+        "requirementText",
+        "scalingType",
+        "slug",
+        "stats",
+        "thumbnailUrl",
+        "url"
+      ],
+      "count": null,
+      "arrays": {
+        "behaviorNotes": 1,
+        "interactions": 0,
+        "lines": 0,
+        "perks": 0,
+        "rankTables": 1,
+        "relatedVariations": 0
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/api/monsters",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/6b32bf0e00a0e333631d.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "filters",
+        "monsters",
+        "search"
+      ],
+      "count": 211,
+      "arrays": {
+        "monsters": 211
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/api/monsters?form=variation&page=99",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/ad71a468338d9eefde17.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "filters",
+        "monsters",
+        "search"
+      ],
+      "count": 8,
+      "arrays": {
+        "monsters": 8
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/api/monsters/acid-slime",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/bc5124929fe79387424f.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "assetId",
+        "assetType",
+        "behaviorNotes",
+        "behaviorSummary",
+        "bookColor",
+        "bookListed",
+        "bookSection",
+        "bookStats",
+        "bookStatsContext",
+        "bossType",
+        "bounties",
+        "category",
+        "combatStats",
+        "createdAt",
+        "description",
+        "differences",
+        "dropNote",
+        "drops",
+        "extraMetadata",
+        "flavorText",
+        "groupOnly",
+        "hasImage",
+        "hidden",
+        "imageUrl",
+        "level",
+        "metadata",
+        "module",
+        "monsterBookPage",
+        "name",
+        "requirementText",
+        "slug",
+        "spawnLocations",
+        "stats",
+        "thumbnailUrl",
+        "updatedAt",
+        "url",
+        "variationCount",
+        "variations",
+        "versionHistory"
+      ],
+      "count": null,
+      "arrays": {
+        "behaviorNotes": 0,
+        "bounties": 3,
+        "drops": 15,
+        "spawnLocations": 0,
+        "variations": 0,
+        "versionHistory": 3
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/api/monsters/bandit?variation=hobo",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/2ed2e97eff873e22d28e.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "assetId",
+        "assetType",
+        "behaviorNotes",
+        "behaviorSummary",
+        "bookColor",
+        "bookListed",
+        "bookSection",
+        "bookStats",
+        "bookStatsContext",
+        "bossType",
+        "bounties",
+        "category",
+        "combatStats",
+        "description",
+        "differences",
+        "dropNote",
+        "drops",
+        "extraMetadata",
+        "flavorText",
+        "groupOnly",
+        "hasImage",
+        "hidden",
+        "imageUrl",
+        "level",
+        "metadata",
+        "module",
+        "monsterBookPage",
+        "name",
+        "parent",
+        "parentName",
+        "parentSlug",
+        "requirementText",
+        "slug",
+        "spawnLocations",
+        "stats",
+        "thumbnailUrl",
+        "updatedAt",
+        "url",
+        "variation",
+        "variationCount",
+        "versionHistory"
+      ],
+      "count": null,
+      "arrays": {
+        "behaviorNotes": 0,
+        "bounties": 0,
+        "drops": 4,
+        "spawnLocations": 0,
+        "versionHistory": 1
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/monsters?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/fb9d57bdc3a43086f8b7.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "filters",
+        "monsters",
+        "search"
+      ],
+      "count": 211,
+      "arrays": {
+        "monsters": 211
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/monsters/acid-slime?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/85d58e63cd671d18b5fc.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "assetId",
+        "assetType",
+        "behaviorNotes",
+        "behaviorSummary",
+        "bookColor",
+        "bookListed",
+        "bookSection",
+        "bookStats",
+        "bookStatsContext",
+        "bossType",
+        "bounties",
+        "category",
+        "combatStats",
+        "createdAt",
+        "description",
+        "differences",
+        "dropNote",
+        "drops",
+        "extraMetadata",
+        "flavorText",
+        "groupOnly",
+        "hasImage",
+        "hidden",
+        "imageUrl",
+        "level",
+        "metadata",
+        "module",
+        "monsterBookPage",
+        "name",
+        "requirementText",
+        "slug",
+        "spawnLocations",
+        "stats",
+        "thumbnailUrl",
+        "updatedAt",
+        "url",
+        "variationCount",
+        "variations",
+        "versionHistory"
+      ],
+      "count": null,
+      "arrays": {
+        "behaviorNotes": 0,
+        "bounties": 3,
+        "drops": 15,
+        "spawnLocations": 0,
+        "variations": 0,
+        "versionHistory": 3
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/api/maps",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/c97fc1c3bf3836143fe4.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "maps"
+      ],
+      "count": 17,
+      "arrays": {
+        "maps": 17
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/api/maps/nilgarf",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/d11d8f0a6835a30709ea.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "arrivesFrom",
+        "assetType",
+        "calibrated",
+        "capturedAt",
+        "characters",
+        "counts",
+        "exits",
+        "imageUrl",
+        "keyArtThumbnailUrl",
+        "keyArtUrl",
+        "locationKey",
+        "monsters",
+        "name",
+        "placeId",
+        "slug",
+        "tags",
+        "url",
+        "viewer"
+      ],
+      "count": null,
+      "arrays": {
+        "arrivesFrom": 3,
+        "characters": 107,
+        "exits": 7,
+        "monsters": 1,
+        "tags": 0
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/maps?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/98375ae91ace4007057f.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "maps"
+      ],
+      "count": 17,
+      "arrays": {
+        "maps": 17
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/maps/nilgarf?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/e29eb8bd9043cb9e9a4d.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "arrivesFrom",
+        "assetType",
+        "calibrated",
+        "capturedAt",
+        "characters",
+        "counts",
+        "exits",
+        "imageUrl",
+        "keyArtThumbnailUrl",
+        "keyArtUrl",
+        "locationKey",
+        "monsters",
+        "name",
+        "placeId",
+        "slug",
+        "tags",
+        "url",
+        "viewer"
+      ],
+      "count": null,
+      "arrays": {
+        "arrivesFrom": 3,
+        "characters": 107,
+        "exits": 7,
+        "monsters": 1,
+        "tags": 0
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/search?q=Magnificent%20Holy%20Scroll&format=json&limit=100",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/76068a92f18706967e4b.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "limit",
+        "query",
+        "results",
+        "total",
+        "truncated"
+      ],
+      "count": 1,
+      "arrays": {
+        "results": 1
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/codes?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/dad598d1b5d6a143b1a3.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "categories",
+        "codes",
+        "count",
+        "expiredCodes",
+        "expiredCount"
+      ],
+      "count": 25,
+      "arrays": {
+        "categories": 4,
+        "codes": 25,
+        "expiredCodes": 10
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/market?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/8504f71c30b63f956f83.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "dataSince",
+        "markets",
+        "order",
+        "sort",
+        "updatedAt",
+        "window"
+      ],
+      "count": 100,
+      "arrays": {
+        "markets": 100
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/market/holy-scroll?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/a2053167b5fe6248b4e7.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "last24Hours",
+        "markets",
+        "name",
+        "popular",
+        "updatedAt",
+        "url"
+      ],
+      "count": null,
+      "arrays": {
+        "markets": 1
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/items/holy-scroll/market-history",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/7bdc622b3c09cf378814.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "attribute",
+        "days",
+        "hours",
+        "name",
+        "page",
+        "trackingSince",
+        "url"
+      ],
+      "count": null,
+      "arrays": {
+        "days": 37,
+        "hours": 168
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/dashboards?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/89d669e6de90a82d22e0.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "dashboards"
+      ],
+      "count": null,
+      "arrays": {
+        "dashboards": 2
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/dashboards/badlands-pvp?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/69aed553c3d57a152f5c.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "abilityBooks",
+        "booksOrder",
+        "booksPage",
+        "booksPages",
+        "booksSort",
+        "category",
+        "count",
+        "items",
+        "minFights",
+        "order",
+        "page",
+        "pages",
+        "sort",
+        "updatedAt",
+        "windowDays"
+      ],
+      "count": 10,
+      "arrays": {
+        "abilityBooks": 10,
+        "items": 10
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/versions?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/929d4bbaec0df937143a.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "versions"
+      ],
+      "count": 23,
+      "arrays": {
+        "versions": 23
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/videos?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/c09a29bab9ec12391493.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "videos"
+      ],
+      "count": 17,
+      "arrays": {
+        "videos": 17
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/guides?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/beda305722ebcd9b605e.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "guides"
+      ],
+      "count": 17,
+      "arrays": {
+        "guides": 17
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/guilds?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/771ea313945832a634ed.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "demoMode",
+        "demoReason",
+        "feed",
+        "feedPagination",
+        "guilds"
+      ],
+      "count": 47,
+      "arrays": {
+        "feed": 20,
+        "guilds": 47
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/popular?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/a789fbd7b18eb299c980.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "pages"
+      ],
+      "count": 2947,
+      "arrays": {
+        "pages": 2947
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/recently-updated?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/d5aa3091ff61ca19aa81.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "count",
+        "pages"
+      ],
+      "count": 158,
+      "arrays": {
+        "pages": 158
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/versions/1358?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/3e899bb100ed956f11b8.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "changes",
+        "commentCount",
+        "counts",
+        "footnotes",
+        "fromVersion",
+        "groups",
+        "headline",
+        "heroImage",
+        "includedVersions",
+        "lastPublishedAt",
+        "lastVersion",
+        "notes",
+        "publishedAt",
+        "publishedBy",
+        "publishers",
+        "summary",
+        "updateType",
+        "url",
+        "version",
+        "versionLabel",
+        "viewCount"
+      ],
+      "count": null,
+      "arrays": {
+        "changes": 32,
+        "footnotes": 1,
+        "groups": 8,
+        "includedVersions": 2,
+        "notes": 8,
+        "publishers": 1
+      }
+    }
+  },
+  {
+    "url": "https://db.playvesteria.com/videos/1-3rd-lands?format=json",
+    "status": 200,
+    "contentType": "application/json",
+    "bodyFile": "responses/0fbe2b1370aafa43dfe9.body",
+    "json": true,
+    "shape": {
+      "type": "object",
+      "keys": [
+        "addedAt",
+        "author",
+        "commentCount",
+        "durationSeconds",
+        "embedUrl",
+        "forumTopicUrl",
+        "isNew",
+        "official",
+        "outboundClickCount",
+        "publishedAt",
+        "relatedPages",
+        "slug",
+        "tags",
+        "thumbnailLargeUrl",
+        "thumbnailUrl",
+        "title",
+        "totalViewCount",
+        "url",
+        "viewCount",
+        "watchUrl",
+        "youtube",
+        "youtubeId"
+      ],
+      "count": null,
+      "arrays": {
+        "relatedPages": 0,
+        "tags": 1
+      }
+    }
+  }
+]

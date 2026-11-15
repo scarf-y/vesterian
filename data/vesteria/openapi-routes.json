@@ -1,0 +1,403 @@
+[
+  {
+    "path": "/abilities/{book}/{ability}",
+    "method": "GET",
+    "summary": "Ability page data",
+    "parameters": [
+      {
+        "description": "Ability book slug.",
+        "in": "path",
+        "name": "book",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Ability slug or id.",
+        "in": "path",
+        "name": "ability",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Exact variation slug. A missing variation returns 404; it never falls back to the base record.",
+        "in": "query",
+        "name": "variation",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Set to `json` to get the page's data instead of HTML.",
+        "example": "json",
+        "in": "query",
+        "name": "format",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/abilities",
+    "method": "GET",
+    "summary": "Ability books and abilities",
+    "parameters": [
+      {
+        "description": "Search text. Supports tokens such as `tag:staff`, `tier:7` and `class:warrior` (see llms.txt for the full syntax).",
+        "example": "ruby",
+        "in": "query",
+        "name": "search",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/catalog",
+    "method": "GET",
+    "summary": "Whole public catalog",
+    "parameters": []
+  },
+  {
+    "path": "/api/items",
+    "method": "GET",
+    "summary": "Items",
+    "parameters": [
+      {
+        "description": "Search text. Supports tokens such as `tag:staff`, `tier:7` and `class:warrior` (see llms.txt for the full syntax).",
+        "example": "ruby",
+        "in": "query",
+        "name": "search",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/maps",
+    "method": "GET",
+    "summary": "Maps",
+    "parameters": []
+  },
+  {
+    "path": "/api/maps/{slug}",
+    "method": "GET",
+    "summary": "One map",
+    "parameters": [
+      {
+        "description": "Page slug, as in the page URL.",
+        "in": "path",
+        "name": "slug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/monsters",
+    "method": "GET",
+    "summary": "Monsters",
+    "parameters": [
+      {
+        "description": "Search text. Supports tokens such as `tag:staff`, `tier:7` and `class:warrior` (see llms.txt for the full syntax).",
+        "example": "ruby",
+        "in": "query",
+        "name": "search",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Monster category filter.",
+        "in": "query",
+        "name": "category",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Monster Book page: 1-6, `bosses`, or `all`.",
+        "in": "query",
+        "name": "page",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "`variation` to list variations only.",
+        "in": "query",
+        "name": "form",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/api/monsters/{slug}",
+    "method": "GET",
+    "summary": "One monster",
+    "parameters": [
+      {
+        "description": "Page slug, as in the page URL.",
+        "in": "path",
+        "name": "slug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Exact variation slug. A missing variation returns 404; it never falls back to the base record.",
+        "in": "query",
+        "name": "variation",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/codes",
+    "method": "GET",
+    "summary": "Premium Shop codes",
+    "parameters": [
+      {
+        "description": "Set to `json` to get the page's data instead of HTML.",
+        "example": "json",
+        "in": "query",
+        "name": "format",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/items/{slug}",
+    "method": "GET",
+    "summary": "Item page data",
+    "parameters": [
+      {
+        "description": "Page slug, as in the page URL.",
+        "in": "path",
+        "name": "slug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Exact variation slug. A missing variation returns 404; it never falls back to the base record.",
+        "in": "query",
+        "name": "variation",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Set to `json` to get the page's data instead of HTML.",
+        "example": "json",
+        "in": "query",
+        "name": "format",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/market",
+    "method": "GET",
+    "summary": "Global Market",
+    "parameters": [
+      {
+        "description": "`24h` or `7d`.",
+        "in": "query",
+        "name": "window",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "`sales` (orders, default), `price`, `mushcoin` or `listings`.",
+        "in": "query",
+        "name": "sort",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "`desc` (default) or `asc`.",
+        "in": "query",
+        "name": "order",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Set to `json` to get the page's data instead of HTML.",
+        "example": "json",
+        "in": "query",
+        "name": "format",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/market/{slug}",
+    "method": "GET",
+    "summary": "One item's market figures",
+    "parameters": [
+      {
+        "description": "Page slug, as in the page URL.",
+        "in": "path",
+        "name": "slug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Exact variation slug. A missing variation returns 404; it never falls back to the base record.",
+        "in": "query",
+        "name": "variation",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Set to `json` to get the page's data instead of HTML.",
+        "example": "json",
+        "in": "query",
+        "name": "format",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/monsters/{slug}",
+    "method": "GET",
+    "summary": "Monster page data",
+    "parameters": [
+      {
+        "description": "Page slug, as in the page URL.",
+        "in": "path",
+        "name": "slug",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Exact variation slug. A missing variation returns 404; it never falls back to the base record.",
+        "in": "query",
+        "name": "variation",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Set to `json` to get the page's data instead of HTML.",
+        "example": "json",
+        "in": "query",
+        "name": "format",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/versions",
+    "method": "GET",
+    "summary": "Game updates",
+    "parameters": [
+      {
+        "description": "Set to `json` to get the page's data instead of HTML.",
+        "example": "json",
+        "in": "query",
+        "name": "format",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/versions/{number}",
+    "method": "GET",
+    "summary": "One game update",
+    "parameters": [
+      {
+        "description": "Version number.",
+        "in": "path",
+        "name": "number",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "description": "Set to `json` to get the page's data instead of HTML.",
+        "example": "json",
+        "in": "query",
+        "name": "format",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "path": "/videos",
+    "method": "GET",
+    "summary": "Videos",
+    "parameters": [
+      {
+        "description": "Set to `json` to get the page's data instead of HTML.",
+        "example": "json",
+        "in": "query",
+        "name": "format",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  }
+]

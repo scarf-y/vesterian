@@ -1,0 +1,42 @@
+# Vesteria Database: the official Vesteria game database, published by Vesteria, Inc.
+# Content terms: https://db.playvesteria.com/content-license
+# AI training preferences below reflect that license.
+
+User-agent: *
+Allow: /
+Disallow: /videos/*/watch
+Disallow: /comments.json
+Disallow: /videos/submit
+Disallow: /videos/review
+Disallow: /videos/page-search
+Disallow: /videos/*/headshot.png
+Disallow: /videos/*/moderation
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+
+# Shared AI training preference (Google, Bing, Anthropic, OpenAI).
+User-agent: __usage_ai-training
+Disallow: /
+
+# Crawlers used only to collect AI training data.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+User-agent: Applebot-Extended
+User-agent: MistralAI-Training
+Disallow: /
+
+# Keeps the site eligible to be cited in Gemini apps.
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://db.playvesteria.com/sitemap.xml
+Sitemap: https://db.playvesteria.com/popular.xml
+Sitemap: https://db.playvesteria.com/recently-updated.xml
+Sitemap: https://db.playvesteria.com/items.xml
+Sitemap: https://db.playvesteria.com/abilities.xml
+Sitemap: https://db.playvesteria.com/monsters.xml
+Sitemap: https://db.playvesteria.com/abilitybooks.xml
+Sitemap: https://db.playvesteria.com/variants.xml
+Sitemap: https://db.playvesteria.com/versions.xml
+Sitemap: https://db.playvesteria.com/guilds.xml
+Sitemap: https://db.playvesteria.com/images.xml

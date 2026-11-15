@@ -1,0 +1,77 @@
+{
+  "checkedAt": "2026-11-15T00:50:14.777268+00:00",
+  "baseUrl": "https://db.playvesteria.com",
+  "scope": "Public sitemap enumeration, six navigation pages, and representative read-only JSON requests; not every page was fetched.",
+  "catalogBuild": {
+    "builtAt": "2026-11-14T19:42:20+00:00",
+    "id": "7455512f2876fa9e"
+  },
+  "catalogCounts": {
+    "abilities": 174,
+    "byType": {
+      "ability": 18,
+      "item": 1467,
+      "map": 17,
+      "monster": 129
+    },
+    "hidden": 21,
+    "maps": 17,
+    "monsterVariations": 89,
+    "monsters": 211,
+    "total": 1614,
+    "variations": 866,
+    "versions": 23,
+    "visible": 1593
+  },
+  "catalogArrayLengths": {
+    "abilities": 18,
+    "items": 1453,
+    "maps": 17,
+    "monsters": 128
+  },
+  "sitemaps": {
+    "https://db.playvesteria.com/sitemap.xml": 3087,
+    "https://db.playvesteria.com/popular.xml": 2947,
+    "https://db.playvesteria.com/recently-updated.xml": 158,
+    "https://db.playvesteria.com/items.xml": 1454,
+    "https://db.playvesteria.com/abilities.xml": 174,
+    "https://db.playvesteria.com/monsters.xml": 212,
+    "https://db.playvesteria.com/abilitybooks.xml": 19,
+    "https://db.playvesteria.com/variants.xml": 1198,
+    "https://db.playvesteria.com/versions.xml": 24,
+    "https://db.playvesteria.com/guilds.xml": 48,
+    "https://db.playvesteria.com/images.xml": 2951
+  },
+  "uniqueSitemapUrls": 3087,
+  "sitemapFamilies": {
+    "/": 1,
+    "abilities": 439,
+    "codes": 1,
+    "content-license": 1,
+    "dashboards": 2,
+    "developers": 1,
+    "guides": 1,
+    "guilds": 48,
+    "items": 2317,
+    "llms.txt": 1,
+    "maps": 18,
+    "market": 1,
+    "monsters": 212,
+    "popular": 1,
+    "recently-updated": 1,
+    "versions": 24,
+    "videos": 18
+  },
+  "uniqueDiscoveredUrls": 3123,
+  "imageUrls": 2832,
+  "openapiOperations": 16,
+  "sampledEndpoints": 36,
+  "successfulJsonSamples": 36,
+  "catalogConditionalGetStatus": 304,
+  "acceptHeaderCheck": {
+    "status": 200,
+    "contentType": "application/json",
+    "isJson": true
+  },
+  "requests": 59
+}

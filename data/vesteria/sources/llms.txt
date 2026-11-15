@@ -1,0 +1,452 @@
+# Vesteria Database
+
+> The official game database for Vesteria, a Roblox RPG, published by Vesteria, Inc.: items, abilities, monsters, maps, update notes and Global Market prices, compiled from the game's own data.
+
+Canonical site: https://db.playvesteria.com
+Publisher: Vesteria, Inc., a Delaware corporation (https://www.playvesteria.com)
+
+Content creators: players can submit their Vesteria videos to be featured; see "Becoming a featured
+Vesteria content creator" below.
+
+## Content license
+
+- [Vesteria Content License](https://db.playvesteria.com/content-license): the terms for reusing this site's content.
+- Covered Content is the game information on this site (names, descriptions, stats,
+  recipes, drop tables, spawn locations, update notes, Global Market figures) and its
+  game images (item, ability, perk and currency icons, Monster Book portraits, map art,
+  update artwork). Player-supplied content and player profiles are not Covered Content.
+- Anyone can use Covered Content in Vesteria works (videos, guides, wikis, websites,
+  bots, apps), including monetized ones, subject to the license, the Vesteria Community
+  Terms and, where they apply, the Roblox Terms of Use. Asset packs, other games,
+  reselling the content itself and merchandise are not allowed.
+- Search engines and AI services can crawl, index, cache and analyze Covered Content and
+  show it in search results and AI responses. That permission does not cover training
+  general-purpose AI models or making assets for unrelated games or projects.
+- Game pages and JSON endpoints send `Link: <https://db.playvesteria.com/content-license>; rel="license"`.
+  Licensed images also say so in their page's ImageObject `license` and in embedded
+  IPTC/XMP metadata.
+
+## Answering questions
+
+Use the JSON endpoints when answering data questions. Prefer API/catalog data
+over scraping rendered HTML. Resolve relative links against the canonical site.
+Use the returned `url` for exact asset/variation links; never substitute a base
+asset for a requested variation that is missing.
+
+## Finding a page by name
+
+Start with global search to resolve an unfamiliar name (items, item and ability
+variations, abilities, monsters, maps, updates, videos, sections):
+
+GET https://db.playvesteria.com/search?q=Magnificent%20Holy%20Scroll&format=json
+
+It returns `count`, `total`, `truncated` and `results` (each with `title`, `kind`
+and `url`). It returns 8 results by default; add `limit` (up to 100) and check
+`truncated` before concluding that something doesn't exist. Item search
+(`/api/items?search=`) also matches variation names: an item found through a
+variation carries `matchedVariations`, each with the exact variation `url`.
+
+## Format, Scope, and Freshness
+
+Public page routes documented below return JSON with `?format=json`. They also
+return JSON when the `Accept` header prefers `application/json` over `text/html`;
+equal preferences (including `*/*`) return HTML. Explicit `format=json` takes
+precedence. `/api/` read endpoints always return JSON. URL-encode search terms
+and variation keys, and preserve `variation` when adding `format=json`.
+
+This is a compiled snapshot of source-verified game data, not a live game
+query. Coverage and refresh timing vary by asset. `createdAt`, `updatedAt`, and
+`versionHistory` describe known release attribution, not the last scrape time
+or a guarantee that every fact matches that release. Historical changes can
+differ from the current asset page after later game updates. Missing values or
+empty lists do not prove a game feature, location, source, or drop is absent.
+`GET /api/catalog` includes `build` (`id`, `builtAt`) naming the snapshot you
+read, and sends an `ETag`: revalidate with `If-None-Match` instead of
+downloading it again. Item records carry their page `url` (variations include
+`?variation=`).
+
+Skip records marked `hidden` when presenting available assets. A monster record
+with `groupOnly: true` is a family container: use its visible variations, not
+the container as an encounter. Do not infer availability from an internal name
+or undocumented URL. The catalog is curated and is not an exhaustive dump of
+game scripts.
+
+## Primary Data Endpoints
+
+- OpenAPI description of these endpoints: GET https://db.playvesteria.com/openapi.json
+- Public catalog: GET https://db.playvesteria.com/api/catalog
+- Visible items only: GET https://db.playvesteria.com/api/items
+- Ability books and abilities: GET https://db.playvesteria.com/api/abilities
+- Monsters and exact variations: GET https://db.playvesteria.com/api/monsters
+- JSON item search: GET https://db.playvesteria.com/api/items?search={query}
+- JSON ability search: GET https://db.playvesteria.com/api/abilities?search={query}
+- JSON monster search: GET https://db.playvesteria.com/api/monsters?search={query}
+- Active and expired Premium Shop codes: GET https://db.playvesteria.com/codes?format=json
+- Content creator videos: GET https://db.playvesteria.com/videos?format=json
+- Global Market prices and popularity: GET https://db.playvesteria.com/market?format=json
+- Live dashboards (Badlands PvP, ...): GET https://db.playvesteria.com/dashboards?format=json
+- Version list: GET https://db.playvesteria.com/versions?format=json
+- Canonical page sitemap: GET https://db.playvesteria.com/sitemap.xml
+- Monster page sitemap: GET https://db.playvesteria.com/monsters.xml
+- Maps (area minimaps with spawns, portals, NPCs): GET https://db.playvesteria.com/api/maps
+
+`/api/catalog` returns:
+
+- `version`: catalog schema version, not the latest game release number
+- `assetTypes`: enabled asset domains
+- `counts`: build-wide summary counts, which can include hidden records and grouping containers; use endpoint result counts for public search results
+- `constants`: shared constants such as tier colors
+- `assets.items`: visible item records
+- `assets.abilities`: visible ability book records with nested abilities
+- `assets.monsters`: monster families with full nested `variations`; the flat public encounter list is `/api/monsters`
+- `assets.maps`: map summaries (`slug`, `name`, `tags`, `placeId`, `url`, `keyArtUrl`, `imageUrl`, `counts`); full map data is `/maps/{slug}?format=json`
+- `versions`: version page summaries
+
+## Item Data
+
+Item pages support HTML and JSON:
+
+- Item page: GET /items/{slug-or-id}
+- Item JSON: GET /items/{slug-or-id}?format=json
+- Item variation page: GET /items/{parent-slug}?variation={variation-slug}
+- Item variation JSON: GET /items/{parent-slug}?variation={variation-slug}&format=json
+- Item thumbnail: GET /items/{slug}/thumbnail?size=150
+- Variation thumbnail: GET /items/{parent-slug}/thumbnail?variation={variation-slug}&size=150
+
+Useful item fields:
+
+- `slug`, `id`, `name`, `description`
+- `rarity`, `tier`, `category`, `itemType`
+- `soulbound`, `autoConsume`, `isImportant`
+- `metadata`: display-ready structured values such as stats, stack size, values, requirements, activation data, fishing modifiers, and crafting data
+- `extraMetadata`: lower-priority technical flags shown under extra details
+- `variations`: public item variations; each has `variation`, `slug`, `name`, `tier`, `rarity`, `url`, and `thumbnailUrl`
+- `behaviorSummary`: plain-English summary for items with custom script behavior
+- `createdAt`, `updatedAt`, `versionHistory`: version attribution when known
+
+Variation selectors accept the returned slug and known source keys, including
+numeric keys and vanity/title aliases where present. Prefer the returned
+variation `url` instead of constructing an alias yourself. Base item variation
+lists are summaries; fetch the exact variation JSON for its resolved stats,
+behavior, acquisition sources, and version history.
+
+`metadata.obtainedFrom` is display-ready acquisition data. Its link cells can
+target exact monster variations, reward containers, or other sources. Follow
+the provided links; an unlinked source label is not evidence of a matching
+base monster page. Crafting and ability links are also available through
+`craftingRecipes`, `reforgeRecipes`, `usedInRecipes`, and `grantsAbilities`.
+
+### Item Tier and Rarity
+
+For public-facing item analysis, treat `tier` as the primary rarity, value, and
+power signal. Vesteria item tiers are the visible progression scale players use
+to compare items.
+
+Do not treat `rarity` as the main rarity signal when reasoning about item value
+or balance. Values such as `Common`, `Rare`, and `Legendary` are internal-facing
+pickup/presentation categories; they can affect things like pickup sound or
+presentation behavior, but they are not a reliable substitute for tier.
+
+When summarizing an item, prefer language like "tier 7 item" over "Common item"
+if both fields are present. If both fields matter, say both explicitly, e.g.
+"tier 7 with Common pickup rarity."
+
+## Item Search
+
+The `/items` page has search. For JSON item search, use:
+
+GET /api/items?search={query}
+
+The HTML page can also return JSON with the same search:
+
+GET /items?format=json&search={query}
+
+To deep-link a browser search, use:
+
+GET /items?search={query}
+
+Search terms can be combined with filter tokens:
+
+- `tag:{slug}` filters item page tags such as rarity, category, item type, and flags.
+- `tier:{number}` filters by item tier.
+- `class:{slug}` filters by equip class.
+
+Examples:
+
+- `/items?search=tag:staff`
+- `/items?search=tier:7`
+- `/items?search=class:warrior`
+- `/items?search=tag:fish shark`
+- `/items?search=tier:6 tag:fish`
+
+Common tag slugs come from visible item chips:
+
+- Pickup/presentation rarity: `common`, `uncommon`, `rare`, `legendary`, `mythical`
+- Category: `equipment`, `consumable`, `miscellaneous`, `special`, `currency`, `title`
+- Item type: examples include `sword`, `staff`, `bow`, `dagger`, `hat`, `armour`, `fish`, `scroll`, `pet`, `mount`, `dye`
+- Flags: `soulbound`, `auto-consume`, `important`
+
+JSON search responses return `count`, `search`, `filters`, and `items`. Items
+matched through a variation name carry `matchedVariations` (`name`, `variation`,
+`slug`, `tier`, `rarity`, `url`).
+Programmatic clients may either call JSON search directly or fetch
+`/api/catalog` or `/api/items` and filter item records locally. Match
+`tag:{slug}` against slugified values from `rarity`, `category`, `itemType`,
+and boolean flags (`soulbound`, `autoConsume`, `isImportant`). Match
+`tier:{number}` against `tier`. Match `class:{slug}` against the item's
+usable-by/minimum-class metadata when present.
+
+## Ability Data
+
+Ability pages support HTML and JSON:
+
+- Ability index: GET /abilities
+- Ability book JSON: GET /abilities/{book-slug}?format=json
+- Ability JSON: GET /abilities/{book-slug}/{ability-slug-or-id}?format=json
+- Ability variation JSON: GET /abilities/{book-slug}/{ability-slug}?variation={variation-slug}&format=json
+- Ability thumbnail: GET /abilities/{book-slug}/{ability-slug}/thumbnail?size=150
+
+Ability book records include `slug`, `name`, level range, book color, thumbnail,
+and nested `abilities`.
+
+Ability records include:
+
+- `slug`, `id`, `name`, `description`
+- `passive`, `hiddenInGame`, `equipmentAbility`
+- `damageType`, `scalingType`, `adaptiveAttack`
+- `maxRank`, `stats`, `upgradePaths`, `rankTables`
+- `interactions`
+- `grantedBy`
+- `variations`: perk/stat/equipment-triggered variants
+
+Ability variations include `slug`, `name`, `label`, `requirementText`,
+`perks`, `url`, and `thumbnailUrl`.
+
+Use the returned variation slug for ability selectors; raw perk keys are not
+general variation aliases. Fetch the exact variation JSON for `rankTables`,
+`stats`, `lines`, `behaviorNotes`, `interactions`, `perkCards`, and `differences`.
+These explain behavior beyond displayed power or tooltip values. Rank tables
+can have multiple upgrade paths; retain each path and its rank labels.
+
+The `/abilities` page has a global search. JSON ability search returns a flat
+`results` list of matching abilities and variations, with book context:
+
+GET /api/abilities?search={query}
+GET /abilities?format=json&search={query}
+
+When the HTML search is populated, it hides ability books and lists matching
+abilities and variations with their book. Deep-link with
+`/abilities?search={query}`.
+
+## Monster Data
+
+- Monster index JSON: GET /monsters?format=json
+- Flat monster/variation search: GET /api/monsters?search={query}
+- Monster JSON: GET /api/monsters/{parent-slug}
+- Exact variation JSON: GET /api/monsters/{parent-slug}?variation={variation-slug}
+- Monster page/JSON: GET /monsters/{parent-slug}?format=json
+- Variation page/JSON: GET /monsters/{parent-slug}?variation={variation-slug}&format=json
+
+The flat API returns `count`, `search`, `filters`, and `monsters`. Each encounter
+has a canonical `url`; use it to distinguish base monsters from variations.
+Search includes monster names and known drop names. Optional filters are
+`page` (or `book_page`), `category`, and `form=base` or `form=variation`.
+`page=all` includes every public encounter; numbered pages follow explicit
+in-game assignments, not level ranges. Page `99` is the Bosses section.
+Unfiltered JSON includes all pages even when the browser initially displays
+one page.
+
+Monster variation selectors accept the returned slug, the raw `variation` key
+(which may be numeric), the display name, and known lookup aliases. Responses
+normalize these to the same canonical `url`. For example,
+`/api/monsters/bandit?variation=hobo` is Hobo Bandit, not base Bandit. An unknown
+or hidden variation returns 404 rather than falling back to its parent.
+
+Useful monster fields:
+
+- `assetType`, `module`, `slug`, `name`, `level`, `category`, `bossType`, `url`
+- `variation`, `parentSlug`, `parentName`, `parent` on exact variation records
+- `bookListed`, `monsterBookPage`, `bookSection`: whether and where the encounter appears in the game book
+- `bookStats`: game-formatted Level, HP, and XP; `bookStatsContext` identifies the global XP multipliers used, without personal bonuses
+- `stats`, `combatStats`: additional display stats and precise numeric combat values; overlevel XP replaces regular XP in the primary display when applicable
+- `description`, `flavorText`, `metadata`, `behaviorNotes`, `differences`: available descriptions, lore, explicit locations, traits, and variation differences
+- `drops`, `dropNote`: resolved item or exact item-variation links and drop semantics
+- `bounties`: static `milestone`, `kills`, and `goldReward` in game currency units; these are not a player's progress or claimed rewards
+- `imageUrl`, `thumbnailUrl`, `hasImage`: native monster images when available; check `hasImage` before embedding
+- `spawnLocations`: maps where this exact record has spawn areas (`map`, `name`, `regions`, `url`); the `url` opens the map with those areas highlighted
+- `createdAt`, `updatedAt`, `versionHistory`: known release attribution
+
+An explicitly documented drop source can have `bookListed: false`, a null book
+page/section, and no bounties. It remains a valid exact encounter page and search
+result, but is not part of book progression. Hobo Bandit is one such variation.
+
+Drop records include `name`, `url`, `chance` (a probability from 0 to 1),
+`chanceText`, `amount`, `amountText`, `rollCount`, `rollCountText`, `rolls`,
+`condition`, `itemDetails`, and `note`. `chanceText` follows the game's display
+precision; use `chance` for calculations. `rollCount` is the number of loot
+attempts, while `amount` is an explicitly supplied quantity per successful
+attempt, not the number of attempts. Either count can be a range. `rolls`
+counts grouped duplicate source rows; do not multiply it into `rollCount`
+again, and do not add per-roll probabilities. Read quest, survival, and other
+conditions before describing a drop as generally available. Rates are source
+baselines, not a personalized final chance. Mushcoin drops are omitted by the
+book-derived loot list. Follow each drop `url` for the exact item; reverse
+links are in that item's `metadata.obtainedFrom`.
+
+## Maps
+
+- Map list: GET /api/maps (or /maps?format=json)
+- Map page/JSON: GET /maps/{slug}?format=json (also /api/maps/{slug}; the game's location key, e.g. `warriorStronghold`, redirects to the slug)
+- Key art (the place's Roblox thumbnail, 768x432): GET /maps/{slug}/key-art.png
+
+Maps cover areas with an in-game minimap. `tags` names a map's region (for
+example, Desolation's Hand is tagged `BADLANDS`); the tag is not the map's name.
+Map JSON lists `monsters` (exact
+Monster Book records with their spawn-area counts), `exits` and `arrivesFrom`
+(with `url` when the other area has a map), `characters` (NPC names, roles, and
+shop names), and `viewer`, the coordinates drawn on the map in the minimap
+image's render pixels. The data was exported from Roblox Studio and may lag or
+lead the live game. Spawn collections that don't resolve to a public Monster Book
+record are left out rather than guessed. `calibrated: false` means the export's
+calibration doesn't match the image, so positions aren't drawn; the lists are
+still valid.
+
+## Currency
+
+Money fields in JSON (`buyValue`, `sellValue`, market prices, rewards) are raw
+Mushcoin integers; compare and sort on those. Pages show them in the largest
+denomination: 1 Bronze = 1 Mushcoin, 1 Silver = 1,000, 1 Gold = 1,000,000,
+1 Platinum = 1,000,000,000 (so "134 Silver" is 134,000 Mushcoin). In HTML each
+amount is a `<data value="...">` element holding the raw Mushcoin value.
+
+## Structured Values
+
+`metadata` values use display primitives such as `kind: stats`, `table`,
+`list`, `kv`, or `text`. Preserve labels, units, conditions, and links rather
+than treating formatted strings as unitless raw numbers. `list` primitives use
+`entries`; tables use labeled columns and rows. Descriptions can contain game
+rich-text markup. Public JSON does not expose executable game source.
+
+## Codes
+
+Premium Shop codes:
+
+- HTML: GET /codes
+- JSON: GET /codes?format=json
+
+Code records include `code`, `category`, `limitedTime`, `expiresAt`,
+`expiresAtUnix`, `expired`, `requirements`, and `effects`.
+
+## Global Market
+
+Best-selling items on the in-game Global Market, from sales on live servers:
+
+- HTML: GET /market (`?window=24h` or `7d`, `&sort=mushcoin` to rank by Mushcoin spent)
+- JSON: GET /market?format=json
+- One item's figures: GET /market/{slug}?format=json (add `variation` for a
+  variation page)
+- One item's daily prices: GET /items/{slug}/market-history (add `variation`
+  for a variation page and `attribute`, such as `pristine`, for copies with an
+  attribute)
+
+Market records include `label`, `attribute`, `page` (the linked item, or null
+when the item is not in the database), `purchases`, `previousPurchases`,
+`averagePrice`, `medianPrice`, `lowPrice`, `highPrice`, `volume` (Mushcoin spent),
+`listings`, and `averageAskingPrice`, plus `units` and `listedUnits` (items, where
+a sale or listing can be a stack). Prices are raw Mushcoin values per item, and
+figures count only sales since 2026-11-08 (`dataSince`), when the game began
+reporting stack sizes. Daily history also includes earlier days marked
+`legacy: true`: there a stack counted as one sale (`units` equals `purchases`)
+and prices are per sale or listing, so they run high for stackable items; don't
+compare them with per-item days. Data refreshes every 15 minutes (24 hours) to
+hourly (7 days and daily history).
+
+## Dashboards
+
+Live dashboards rank game assets by figures from live servers, refreshed hourly.
+Every dashboard is listed at GET /dashboards (`?format=json` for title, url,
+description and cover). The Global Market (see above) is one of them and keeps its
+address: /dashboards/market redirects to /market. The others live under
+/dashboards/{slug}. Each one shows ranked lists side by side; every list has its
+own query parameters (the second list's carry a prefix, such as `books_`):
+`category`, `sort`, `order` (`desc` or `asc`) and `page` (10 rows a page, up to 50
+rows). Assets only ever rank within their own category, and a ratio column ranks
+only assets that meet the dashboard's minimum (the rest follow, flagged).
+
+### Badlands PvP
+
+Kills, deaths and kill/death ratio (KDR) in the Badlands (Desolation's Hand and
+Lavalands) over the last 7 days, production servers only:
+
+- HTML: GET /dashboards/badlands-pvp
+- JSON: GET /dashboards/badlands-pvp?format=json
+- Gear: `category` (`weapons`, `hats`, `armor`, `boots`, `offhand`), `sort`
+  (`kills`, `deaths`, `kdr`), `order`, `page`
+- Ability books (by the killer's and victim's class): `books_sort`,
+  `books_order`, `books_page`
+
+A kill counts for the gear the killer wore and the killer's class; a death for the
+victim's. Item pages and ability book pages show the same figures in a header badge
+with their rank in this list, and items repeat them under "Live Stats". Rows include
+`name`, `url`, `kills`, `deaths`, `kdr` (null with no deaths), `kdrText`, and
+`belowMinFights` (true for assets with fewer than `minFights` fights, which are not
+ranked by KDR). Kills count base items, so variations and upgrades count toward
+their base item, and a cosmetic hides the gear under it.
+
+## Videos
+
+Curated Vesteria videos from community content creators and the official
+Vesteria channel (`official: true`):
+
+- HTML: GET /videos and GET /videos/{slug}
+- JSON: GET /videos?format=json and GET /videos/{slug}?format=json
+
+Video records include `slug`, `youtubeId`, `title`, `author`, `publishedAt`,
+`durationSeconds`, `official`, `tags`, `watchUrl`, `embedUrl`, `viewCount` (database page views),
+`outboundClickCount` (click-throughs to YouTube), and `youtube` (YouTube view,
+like, and comment counts, or null when unavailable).
+
+### Becoming a featured Vesteria content creator
+
+Any Vesteria player can submit their own YouTube videos to the official Vesteria
+Database: log in at https://db.playvesteria.com/login, then submit at
+https://db.playvesteria.com/videos/submit (see https://db.playvesteria.com/videos#submit-a-video).
+Staff approve each video, and a creator can submit one video for approval at a
+time. Approved videos appear on /videos with the creator's credit, under
+Related Videos on the item, ability, monster, map and update pages the creator
+chose. Staff can also share it in the #highlights channel of the Vesteria Discord
+(https://discord.com/invite/vesteria).
+Creators can use the site's game images and information in their videos under the
+Vesteria Content License.
+
+Effects may be item rewards, currency rewards, status effects, utility effects,
+or joke effects. Item and currency effects link back to database item pages
+when the target is known.
+
+## Versions
+
+Version pages describe known game update changes and link affected database
+entries.
+
+- Version index: GET /versions
+- Version index JSON: GET /versions?format=json
+- Version JSON: GET /versions/{version-number}?format=json
+
+Version detail JSON includes `changes` (flat asset-specific records), `groups`
+(the same changes organized for display), `notes`, and `footnotes`. Do not count
+the grouped and flat copies twice. Change records link directly to their exact
+asset or variation and include `changeType`, `summary`, and optional `details`.
+New-asset entries can omit a full stat breakdown; fetch the linked asset page
+for its current mechanics.
+
+The page's single **Other Changes** section combines `notes` and `footnotes`.
+These are release-wide prose, not additional per-asset change records. Shared
+changes may intentionally appear here without a separate history entry on
+every affected asset. `counts` describes the asset change records, not these
+additional prose notes. Version 1323 and later numeric change details use
+previous-to-new values where known; do not infer missing historical values
+from the current page or assume older changelogs have the same detail coverage.
+
+Use version data for changelog attribution, and current asset data for current
+database facts. Avoid exposing internal/dev-facing terms when summarizing
+changes for users.

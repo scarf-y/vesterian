@@ -1,0 +1,87 @@
+{
+  "policyVersion": 1,
+  "status": "design-example-not-enforced",
+  "deployment": {
+    "interactionTransport": "gateway",
+    "installationContext": "guild",
+    "replicas": 1
+  },
+  "commands": {
+    "enabled": ["search", "item", "ability", "monster", "map", "price", "codes", "updates", "help", "status"],
+    "defaultPrivate": true,
+    "queryMaxCharacters": 100,
+    "autocompleteMaxChoices": 25,
+    "listPageSize": 10,
+    "componentLifetimeSeconds": 600,
+    "interactionDeduplicationSeconds": 900,
+    "acknowledgementTargetMilliseconds": 1000,
+    "workDeadlineSeconds": 15
+  },
+  "limits": {
+    "algorithm": "token-bucket",
+    "user": {"capacity": 5, "refillTokensPerMinute": 20, "maxConcurrent": 2},
+    "guild": {"capacity": 20, "refillTokensPerMinute": 120},
+    "application": {"capacity": 40, "refillTokensPerMinute": 600, "maxConcurrent": 50},
+    "autocompleteUser": {"capacity": 10, "refillTokensPerSecond": 5},
+    "autocompleteApplication": {"capacity": 100, "refillTokensPerSecond": 50},
+    "commandCosts": {"default": 1, "price": 2, "compare": 3},
+    "componentCost": 1,
+    "counterIdleTtlSeconds": 600,
+    "counterMaxEntries": 100000
+  },
+  "upstream": {
+    "origin": "https://db.playvesteria.com",
+    "allowedMethods": ["GET"],
+    "followRedirects": false,
+    "minRequestIntervalMilliseconds": 1000,
+    "maxConcurrent": 2,
+    "maxQueuedRequests": 50,
+    "interactiveQueueDeadlineSeconds": 5,
+    "interactiveRequestTimeoutSeconds": 8,
+    "backgroundRequestTimeoutSeconds": 30,
+    "maxRetries": 2,
+    "maxCatalogBytesAfterDecompression": 16777216,
+    "maxDetailBytesAfterDecompression": 2097152,
+    "maxJsonDepth": 64,
+    "maxInteractiveFetches": 2,
+    "circuitBreaker": {
+      "failureThreshold": 5,
+      "failureWindowSeconds": 60,
+      "initialOpenSeconds": 60,
+      "maximumOpenSeconds": 900,
+      "halfOpenRequests": 1
+    }
+  },
+  "cache": {
+    "pollJitterFraction": 0.1,
+    "catalogPollSeconds": 900,
+    "codesPollSeconds": 900,
+    "versionsPollSeconds": 900,
+    "detailFreshSeconds": 21600,
+    "market24HourFreshSeconds": 900,
+    "marketHistoryFreshSeconds": 3600,
+    "pvpFreshSeconds": 3600,
+    "negativeResultSeconds": 60,
+    "staticMaximumUnverifiedSeconds": 604800,
+    "marketMaximumUnverifiedSeconds": 3600,
+    "historyMaximumUnverifiedSeconds": 21600,
+    "codesMaximumUnverifiedSeconds": 3600,
+    "retainCatalogGenerations": 7,
+    "maxDetailEntries": 5000,
+    "maxDetailCacheBytes": 268435456,
+    "suspiciousRecordCountDropFraction": 0.2
+  },
+  "security": {
+    "privilegedGatewayIntents": [],
+    "sourceCredentials": false,
+    "allowArbitraryUrls": false,
+    "allowRuntimeCodeExecution": false,
+    "allowedMentions": {"parse": [], "users": [], "roles": [], "replied_user": false},
+    "storeMessageContent": false,
+    "storeInteractionTokens": false,
+    "logRetentionDays": 7,
+    "sourceDiagnosticsRetentionDays": 7,
+    "guildConfigurationDeleteWithinDaysAfterRemoval": 7,
+    "outboundNotificationsEnabled": false
+  }
+}
