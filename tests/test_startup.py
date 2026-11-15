@@ -1,8 +1,20 @@
 from unittest.mock import Mock
 
 import pytest
+import discord
 
 from vesterian import bot
+
+
+@pytest.mark.asyncio
+async def test_bot_initial_presence():
+    client = bot.Bot()
+    try:
+        assert client.status == discord.Status.online
+        assert client.activity.type == discord.ActivityType.playing
+        assert client.activity.name == "Vesteria • /help"
+    finally:
+        await client.close()
 
 
 @pytest.mark.parametrize(

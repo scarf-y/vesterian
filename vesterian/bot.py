@@ -215,7 +215,13 @@ class ResultView(discord.ui.View):
 
 class Bot(discord.Client):
     def __init__(self, directory=Path(".runtime"), sync=False, guild_id=None):
-        super().__init__(intents=discord.Intents.none(), allowed_mentions=NO_MENTIONS, max_messages=None)
+        super().__init__(
+            intents=discord.Intents.none(),
+            allowed_mentions=NO_MENTIONS,
+            max_messages=None,
+            activity=discord.Game(name="Vesteria • /help"),
+            status=discord.Status.online,
+        )
         self.tree = app_commands.CommandTree(self)
         self.directory, self.do_sync, self.test_guild = directory, sync, guild_id
         self.limits, self.active, self.seen = Limits(), Counter(), OrderedDict()

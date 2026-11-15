@@ -32,6 +32,16 @@ For subsequent starts, omit `--sync`. To register globally, run once with `--syn
 
 The first catalog refresh runs in the background; `/help` and `/status` work while it loads. `.runtime/catalog.json` stores the last accepted catalog. A cold start with no usable catalog explains that data commands are not ready. No credentials or interaction tokens are saved there. Run only one instance; shared quotas and multi-instance coordination are future work.
 
+## Bot profile and activity
+
+Suggested application description for the Discord Developer Portal:
+
+> Your Vesteria companion for item stats, monster drops, abilities, maps, codes, and market trends. Use /help to explore. Community-made, powered by the official Vesteria Database.
+
+The bot starts online with **Playing Vesteria • /help**. Restart the bot to apply this activity; command syncing is unnecessary. The description above is set separately in the Developer Portal.
+
+This uses Discord's bot Gateway presence. The C `DiscordRichPresence` example is game-client RPC; its artwork tooltips, party size, and join secrets are not supported by this bot activity. Item artwork and interactive price charts remain inside command replies.
+
 ## Tests
 
 ```powershell
