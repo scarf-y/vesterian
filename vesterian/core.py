@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 from urllib.parse import parse_qsl, urlencode, urlsplit
 
 import discord
+from .presentation import money
 
 ORIGIN = "https://db.playvesteria.com"
 ROUTE = re.compile(
@@ -78,6 +79,8 @@ def display(value, depth=0) -> str:
         return "\n".join(display(v, depth + 1) for v in value[:100]) or "None recorded"
     if not isinstance(value, dict):
         return "Not recorded"
+    if "rawValue" in value and value.get("name") in {"Bronze", "Silver", "Gold", "Platinum"}:
+        return money(value["rawValue"])
     if value.get("kind") == "table":
         cols = value.get("columns", [])
         return "\n".join(
@@ -199,6 +202,13 @@ class Result:
     url: str | None = None
     note: str = ""
     choices: list[Entry] = field(default_factory=list)
+    color: int = 0x66B99A
+    thumbnail: str | None = None
+    image: str | None = None
+    badge: str = ""
+    chart: bytes | None = None
+    chart_range: str = "7d"
+    chart_metric: str = "averagePrice"
 
     def embeds(self):
         chunks, current = [], []
@@ -213,8 +223,17 @@ class Result:
         embeds = []
         for i, chunk in enumerate(chunks[:100]):
             embed = discord.Embed(
-                title=clean(self.title, 240), description=chunk, url=self.url, color=0x66B99A
+                title=clean(self.title, 240),
+                description=(self.badge + "\n\n" if self.badge else "") + chunk,
+                url=self.url,
+                color=self.color,
             )
+            if self.thumbnail:
+                embed.set_thumbnail(url=self.thumbnail)
+            if self.chart:
+                embed.set_image(url="attachment://price.png")
+            elif self.image:
+                embed.set_image(url=self.image)
             embed.set_footer(text=f"{self.note} | Page {i + 1}/{min(len(chunks), 100)}"[:1900])
             embeds.append(embed)
         return embeds

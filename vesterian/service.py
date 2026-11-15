@@ -4,13 +4,15 @@ from datetime import UTC, datetime
 from urllib.parse import urlsplit
 
 from .core import Result, UserError, clean, display, label, linked, page_url, route
+from .presentation import color, media_url, money
+from .charts import ChartRenderer, RANGES, METRICS
 
 VIEWS = {
     "item": ("overview", "sources", "crafting"),
     "ability": ("overview", "ranks"),
     "monster": ("overview", "drops", "locations"),
     "map": ("overview", "monsters", "npcs", "exits"),
-    "price": ("summary", "history"),
+    "price": ("summary", "chart", "history"),
 }
 HELP = {
     "search": "query:<name> [type:<item/ability/monster/map/updates>] — choose an exact match.",
@@ -30,10 +32,6 @@ def timestamp(value):
     return datetime.fromtimestamp(value, UTC).strftime("%Y-%m-%d %H:%M UTC")
 
 
-def money(value):
-    return f"{value:,.2f} Mushcoins" if isinstance(value, (int, float)) else "Not recorded"
-
-
 def sections(data, keys):
     return [f"**{clean(label(k))}**\n{display(data[k])}" for k in keys if data.get(k) is not None]
 
@@ -41,6 +39,7 @@ def sections(data, keys):
 class Service:
     def __init__(self, repo):
         self.repo = repo
+        self.charts = ChartRenderer()
 
     async def run(self, command, query="", view=None, **options):
         if command not in HELP:
@@ -112,7 +111,9 @@ class Service:
             )
         entry = exact[0] if len(exact) == 1 else matches[0]
         if command == "price":
-            return await self.price(entry, view)
+            return await self.price(
+                entry, view, options.get("window", "7d"), options.get("metric", "averagePrice")
+            )
         record = await self.repo.get(entry.path)
         d = record.data
         if d.get("hidden") or d.get("groupOnly"):
@@ -191,19 +192,50 @@ class Service:
 
     def result(self, title, lines, path, record):
         note = f"{'Cached; refresh unavailable. ' if record.stale else ''}Checked {timestamp(record.checked)}"
-        return Result(title, lines, page_url(path), note)
+        result = Result(title, lines, page_url(path), note)
+        d = record.data
+        tier = d.get("tier")
+        palette = (self.repo.catalog or {}).get("constants", {}).get("tierColors", {})
+        result.color = color(palette.get(str(tier)), color(d.get("nameColor"), color(d.get("bookColor"))))
+        if tier is not None:
+            result.badge = f"**Tier {clean(tier)}**" + (
+                f" · {clean(d['itemType'])}" if d.get("itemType") else ""
+            )
+        if d.get("hasImage") is not False:
+            result.thumbnail = media_url(d.get("thumbnailUrl"))
+        if d.get("assetType") == "map":
+            result.image = media_url(d.get("imageUrl"))
+            result.thumbnail = media_url(d.get("keyArtThumbnailUrl"))
+        return result
 
-    async def price(self, entry, view):
+    async def price(self, entry, view, window="7d", metric="averagePrice"):
+        if window not in RANGES or metric not in METRICS:
+            raise UserError("Choose an available chart range and metric.")
         p = urlsplit(entry.path)
-        path = p.path + "/market-history" if view == "history" else p.path.replace("/items/", "/market/", 1)
+        historical = view in {"history", "chart"}
+        path = p.path + "/market-history" if historical else p.path.replace("/items/", "/market/", 1)
         if p.query:
             path += "?" + p.query
         record = await self.repo.get(
             route(path),
-            fresh=3600 if view == "history" else 900,
-            maximum=21600 if view == "history" else 3600,
+            fresh=3600 if historical else 900,
+            maximum=21600 if historical else 3600,
         )
         d = record.data
+        if view == "chart":
+            result = self.result(
+                f"{entry.name} — price chart",
+                [
+                    f"**{METRICS[metric]} · {window}**",
+                    "Change the range or metric below. Only comparable per-item prices are plotted.",
+                ],
+                entry.path,
+                record,
+            )
+            result.chart = await self.charts.draw(entry.name, d, window, metric, self.repo.clock())
+            result.chart_range, result.chart_metric = window, metric
+            result.thumbnail = media_url(p.path + "/thumbnail" + ("?" + p.query if p.query else ""))
+            return result
         if view == "history":
             lines = [
                 f"**{clean(day['day'])} {'— legacy per-sale pricing' if day.get('legacy') else '— per-item pricing'}**\n"
@@ -220,8 +252,12 @@ class Service:
                 for r in rows
             ]
             lines.append(f"Source updated: {clean(d.get('updatedAt', 'not supplied'))}")
-        lines.append("1 Gold = 1,000,000 Mushcoins. Sales and asking prices are different measures.")
-        return self.result(f"{entry.name} — market {view}", lines, entry.path, record)
+        lines.append(
+            "1 Platinum = 1,000 Gold = 1,000,000 Silver = 1,000,000,000 Bronze. Sales and asks are different measures."
+        )
+        result = self.result(f"{entry.name} — market {view}", lines, entry.path, record)
+        result.thumbnail = media_url(p.path + "/thumbnail" + ("?" + p.query if p.query else ""))
+        return result
 
     async def codes(self, show):
         if show not in {"active", "all"}:

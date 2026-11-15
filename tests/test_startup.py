@@ -5,7 +5,9 @@ import pytest
 from vesterian import bot
 
 
-@pytest.mark.parametrize("existing,expected", [(None, "fixture-token"), ("environment-token", "environment-token")])
+@pytest.mark.parametrize(
+    "existing,expected", [(None, "fixture-token"), ("environment-token", "environment-token")]
+)
 def test_startup_loads_project_env_without_overriding_environment(tmp_path, monkeypatch, existing, expected):
     (tmp_path / ".env").write_text('DISCORD_TOKEN="fixture-token"\n', encoding="utf-8")
     monkeypatch.setattr(bot, "__file__", str(tmp_path / "vesterian" / "bot.py"))

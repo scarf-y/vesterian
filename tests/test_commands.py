@@ -21,7 +21,7 @@ def text(result):
         ("map", "Nilgarf", "npcs", "Streisand"),
         ("map", "Nilgarf", "exits", "destination has no map page"),
         ("map", "Nilgarf", "monsters", "Chicken"),
-        ("price", "Holy Scroll", "summary", "3,667,221.56 Mushcoins"),
+        ("price", "Holy Scroll", "summary", "221.56 Bronze"),
         ("price", "Holy Scroll", "history", "legacy per-sale pricing"),
         ("updates", "", "", "Lavalands"),
         ("updates", "1359", "", "Lavalands"),

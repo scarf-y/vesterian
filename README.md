@@ -14,7 +14,7 @@ python -m venv .venv
 .\.venv\Scripts\python -m pip install -e . --no-deps
 ```
 
-Create a Discord application/bot in the Developer Portal. Install it to a test server using the `bot` and `applications.commands` scopes. Use only the channel access and reply/embed permissions needed; do not grant Administrator or enable privileged intents. This implementation receives interactions through the Gateway, so leave the Interactions Endpoint URL unset.
+Create a Discord application/bot in the Developer Portal. Install it to a test server using the `bot` and `applications.commands` scopes. Grant View Channels, Send Messages, Embed Links, and Attach Files (for charts); do not grant Administrator or enable privileged intents. This implementation receives interactions through the Gateway, so leave the Interactions Endpoint URL unset.
 
 Provide `DISCORD_TOKEN` through your local environment or deployment secret store. The bot automatically loads `.env` from the project root; existing environment variables take precedence. `.env.example` documents the variable. Never paste the token into a Git-tracked file or chat.
 

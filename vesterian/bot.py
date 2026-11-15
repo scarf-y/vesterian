@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import io
 import asyncio
 import logging
 import os
@@ -20,6 +21,8 @@ from dotenv import load_dotenv
 from .core import Limits, UserError
 from .data import HttpSource, PublicResolver, Repository, SourceError
 from .service import VIEWS, Service
+from .charts import RANGES, METRICS
+from .presentation import ICONS, DENOMINATIONS
 
 log = logging.getLogger("vesterian")
 NO_MENTIONS = discord.AllowedMentions.none()
@@ -36,6 +39,11 @@ class ResultView(discord.ui.View):
         self.result, self.pages, self.page = result, result.embeds(), 0
         self.busy = False
         self.rebuild()
+
+    def attachments(self):
+        return (
+            [discord.File(io.BytesIO(self.result.chart), filename="price.png")] if self.result.chart else []
+        )
 
     def rebuild(self):
         self.clear_items()
@@ -92,6 +100,47 @@ class ResultView(discord.ui.View):
 
             select.callback = change
             self.add_item(select)
+        if self.section == "chart" and self.command == "price" and not self.result.choices:
+            ranges = discord.ui.Select(
+                placeholder="Time range",
+                options=[
+                    discord.SelectOption(label=k, value=k, default=k == self.result.chart_range)
+                    for k in RANGES
+                ],
+            )
+
+            async def change_range(interaction):
+                await self.replace(
+                    interaction,
+                    self.command,
+                    self.query,
+                    "chart",
+                    window=ranges.values[0],
+                    metric=self.result.chart_metric,
+                )
+
+            ranges.callback = change_range
+            self.add_item(ranges)
+            metrics = discord.ui.Select(
+                placeholder="Price metric",
+                options=[
+                    discord.SelectOption(label=v, value=k, default=k == self.result.chart_metric)
+                    for k, v in METRICS.items()
+                ],
+            )
+
+            async def change_metric(interaction):
+                await self.replace(
+                    interaction,
+                    self.command,
+                    self.query,
+                    "chart",
+                    window=self.result.chart_range,
+                    metric=metrics.values[0],
+                )
+
+            metrics.callback = change_metric
+            self.add_item(metrics)
         if self.result.url:
             self.add_item(discord.ui.Button(label="Open database page", url=self.result.url))
 
@@ -116,19 +165,19 @@ class ResultView(discord.ui.View):
             await interaction.response.send_message(str(exc), ephemeral=True, allowed_mentions=NO_MENTIONS)
             return False
 
-    async def replace(self, interaction, command, query, section):
+    async def replace(self, interaction, command, query, section, **options):
         self.busy = True
         self.app.active[self.owner] += 1
         try:
             await interaction.response.defer()
             async with asyncio.timeout(15):
-                result = await self.app.service.run(command, query, section)
+                result = await self.app.service.run(command, query, section, **options)
             self.command, self.query = command, query
             self.section = section or VIEWS.get(command, (None,))[0]
             self.result, self.pages, self.page = result, result.embeds(), 0
             self.rebuild()
             await interaction.edit_original_response(
-                embed=self.pages[0], view=self, allowed_mentions=NO_MENTIONS
+                embed=self.pages[0], view=self, attachments=self.attachments(), allowed_mentions=NO_MENTIONS
             )
         except (UserError, TimeoutError) as exc:
             await interaction.followup.send(
@@ -183,6 +232,19 @@ class Bot(discord.Client):
         repo = Repository(HttpSource(self.session), self.directory)
         await asyncio.to_thread(repo.load)
         self.service = Service(repo)
+        try:
+            existing = {e.name: e for e in await self.fetch_application_emojis()}
+            for name, _, _ in DENOMINATIONS:
+                key = "vesteria_" + name.lower()
+                emoji = existing.get(key)
+                if emoji is None:
+                    emoji = await self.create_application_emoji(
+                        name=key,
+                        image=(Path(__file__).parent / "assets" / f"{name.lower()}.png").read_bytes(),
+                    )
+                ICONS[name] = str(emoji)
+        except (discord.HTTPException, OSError):
+            log.warning("currency_icons_unavailable_using_fallback")
         self.worker = asyncio.create_task(self.refresh_loop())
         if self.do_sync:
             if self.test_guild:
@@ -234,7 +296,10 @@ class Bot(discord.Client):
                 self, interaction, result, command, query, view or VIEWS.get(command, (None,))[0]
             )
             controls.message = await interaction.edit_original_response(
-                embed=controls.pages[0], view=controls, allowed_mentions=NO_MENTIONS
+                embed=controls.pages[0],
+                view=controls,
+                attachments=controls.attachments(),
+                allowed_mentions=NO_MENTIONS,
             )
         except (UserError, TimeoutError) as exc:
             await interaction.edit_original_response(
@@ -352,7 +417,7 @@ def register(bot):
     async def price(
         interaction: discord.Interaction,
         item: app_commands.Range[str, 1, 100],
-        view: Literal["summary", "history"] = "summary",
+        view: Literal["summary", "chart", "history"] = "summary",
         public: bool = False,
     ):
         await bot.respond(interaction, "price", item, view, public)

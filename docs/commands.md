@@ -2,6 +2,18 @@
 
 Implemented in v0.1.0. Commands work in servers. The bot never reads normal channel messages and does not require privileged intents.
 
+## Visual presentation and charts
+
+Items now show their exact variant thumbnail, a tier badge, and the tier's color from the database. Missing tiers are not guessed. Abilities use their icons; monsters use portraits when the source marks an image available; maps show the minimap and key art.
+
+Prices and item currency values use Platinum, Gold, Silver and Bronze, retaining fractional Bronze in averages. On startup the bot reuses or creates four application-owned currency emojis from the bundled official icons. This requires no server emoji management permission. If Discord rejects emoji setup, readable colored symbols and denomination names remain available. Graphs always include the bundled currency image.
+
+Run `/price item:Holy Scroll`, then choose **Chart** in the view dropdown. You can also use `view:chart` after syncing the updated command definitions. Chart controls select **24h / 7d / 30d** and **Average sale / Median sale / Average asking price**. Each change replaces the image in the same message. Only the requester can use the controls, under the existing rate limits and ten-minute expiry.
+
+24h charts use hourly history; longer ranges use daily history. Timestamps are UTC. Legacy per-sale days are excluded to avoid mixing them with per-item prices. Missing values remain gaps, and an empty range explicitly reports no comparable data. Changing controls reuses cached history; it does not fetch for every click. The graph is a PNG redrawn by Discord controls, not a hoverable browser plot. Text history remains available.
+
+Update dependencies with `python -m pip install -r requirements.txt` in your virtual environment, then restart the bot. Allow **Attach Files** and **Embed Links** for chart replies in the target channel. The runtime policy example remains a future configuration specification, not a loaded settings file.
+
 ## How a lookup feels
 
 1. Type `/item`, then start typing `Holy Scroll` in **name**. Suggestions show exact variants as separate entries. Suggestions come from the local index.
@@ -21,7 +33,7 @@ If a typed name matches multiple entries, the bot shows **Choose the exact entry
 | `/ability name:Rock Throw view:ranks` | `view` = overview, ranks; `public` | Overview: mechanics, requirements, stats, behavior notes, differences and interactions. Ranks: each supplied rank table with column labels and separate upgrade paths. Select exact variants through autocomplete or `/search`. |
 | `/monster name:Acid Slime view:drops` | `view` = overview, drops, locations; `public` | Overview: book stats, combat figures, behavior and bounty milestones. Drops: exact item link, chance per attempt, quantity per success, attempt count and conditions. Locations: recorded maps and spawn-region counts. |
 | `/map name:Nilgarf view:npcs` | `view` = overview, monsters, npcs, exits; `public` | Overview: tags, counts, calibration and export timestamp. Other views list linked monsters, NPC roles/shop names, or exits. An exit without a URL stays labeled as having no map page. |
-| `/price item:Holy Scroll` | `view` = summary, history; `public` | Summary: 24-hour and supplied longer-window average/median sales, asking averages, purchases, units and source timestamp. History: newest daily entries first, labeled per-item or legacy per-sale. Values retain decimals and display Mushcoins with the Gold conversion. |
+| `/price item:Holy Scroll` | `view` = summary, chart, history; `public` | Summary: 24-hour and supplied longer-window average/median sales, asking averages, purchases, units and source timestamp. History: newest daily entries first, labeled per-item or legacy per-sale. Values use Platinum, Gold, Silver and Bronze with fractional Bronze preserved. Chart provides range and metric controls. |
 | `/codes show:active` | `show` = active, all; `public` | Code names, rewards, level/premium/other requirements and expiry. Known expired/upcoming codes are excluded from active. Stale data says “Last seen; unverified.” The bot does not redeem codes. |
 | `/updates version:1359` | Optional `version` number; `public` | Without a number, show the newest catalog release. A number can select a grouped release containing it. Display summary, release-wide notes, footnotes and individual changes, without double-counting the grouped copies. |
 | `/help command:item` | Optional `command` name | Private command guidance. Omit the option to see all commands. Works without source data. |

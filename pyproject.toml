@@ -7,7 +7,7 @@ name = "vesterian"
 version = "0.1.0"
 description = "Discord lookups for the Vesteria Database"
 requires-python = ">=3.11"
-dependencies = ["discord.py>=2.6,<3", "aiohttp>=3.12,<4", "python-dotenv>=1.2,<2"]
+dependencies = ["discord.py>=2.6,<3", "aiohttp>=3.12,<4", "python-dotenv>=1.2,<2", "matplotlib>=3.10,<4"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-asyncio>=1", "ruff>=0.11"]
@@ -17,6 +17,9 @@ vesterian = "vesterian.bot:main"
 
 [tool.setuptools.packages.find]
 include = ["vesterian*"]
+
+[tool.setuptools.package-data]
+vesterian = ["assets/*.png"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
