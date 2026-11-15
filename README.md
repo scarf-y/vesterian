@@ -16,7 +16,7 @@ python -m venv .venv
 
 Create a Discord application/bot in the Developer Portal. Install it to a test server using the `bot` and `applications.commands` scopes. Use only the channel access and reply/embed permissions needed; do not grant Administrator or enable privileged intents. This implementation receives interactions through the Gateway, so leave the Interactions Endpoint URL unset.
 
-Provide `DISCORD_TOKEN` through your local environment or deployment secret store. `.env.example` documents the variable; `.env` files are not loaded automatically. Never paste the token into a Git-tracked file or chat.
+Provide `DISCORD_TOKEN` through your local environment or deployment secret store. The bot automatically loads `.env` from the project root; existing environment variables take precedence. `.env.example` documents the variable. Never paste the token into a Git-tracked file or chat.
 
 Register commands to a test server and start the bot (replace the example server ID):
 
@@ -75,3 +75,7 @@ python scripts/map_vesteria.py --delay 2 --output data/vesteria
 `responses/` contains local response bodies. `cache-index.json` maps requests to those files. The larger local cache and catalog snapshot are excluded from Git; running the script recreates them. Endpoint availability and counts can change. The human-written route map is a dated snapshot; refreshing the script updates the machine-readable reports.
 
 Game content is supplied by Vesteria, Inc. under the [Vesteria Content License](https://db.playvesteria.com/content-license). This is an independent bot project.
+
+## Quick start on Windows
+
+With `DISCORD_TOKEN` in your project `.env`, double-click `start-bot.cmd`, or run `.\start-bot.cmd` in PowerShell. For first-time command registration, run `.\start-bot.cmd --sync --guild YOUR_SERVER_ID`. Keep the terminal open; Ctrl+C stops the bot.

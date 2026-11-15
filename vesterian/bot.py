@@ -15,6 +15,7 @@ from typing import Literal
 import aiohttp
 import discord
 from discord import app_commands
+from dotenv import load_dotenv
 
 from .core import Limits, UserError
 from .data import HttpSource, PublicResolver, Repository, SourceError
@@ -403,6 +404,7 @@ def main():
     )
     parser.add_argument("--data-dir", type=Path, default=Path(".runtime"))
     args = parser.parse_args()
+    load_dotenv(Path(__file__).resolve().parents[1] / ".env", override=False, interpolate=False)
     token = os.environ.get("DISCORD_TOKEN")
     if not token:
         parser.error("Set DISCORD_TOKEN in your local environment or deployment secret store.")
