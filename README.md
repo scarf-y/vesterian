@@ -32,6 +32,16 @@ For subsequent starts, omit `--sync`. To register globally, run once with `--syn
 
 The first catalog refresh runs in the background; `/help` and `/status` work while it loads. `.runtime/catalog.json` stores the last accepted catalog. A cold start with no usable catalog explains that data commands are not ready. No credentials or interaction tokens are saved there. Run only one instance; shared quotas and multi-instance coordination are future work.
 
+## Market context, browsing, and operation
+
+Market summaries show previous-period average price changes when both periods have sales, source snapshot age, and a low-volume note below 10 transactions. Missing counts stay unknown. Asking prices are listings, not completed sales; transactions count purchases and items sold counts quantities. Chart changes compare the first and last available points, not necessarily complete periods.
+
+Item cards offer **Check price** and **Find sources**; monster cards offer **View drops** and **Find locations**. **Explore related entries** opens up to 25 known catalog links from the source response, including exact variants. **View item** returns from market results, and **Back** retraces up to 20 navigation steps. All navigation edits the original reply and retains its privacy and requester-only controls. Controls expire 10 minutes after creation.
+
+`/status` includes process-local cache, schema rejection, refresh failure, admission, and rate-limit counters. Logs contain event names and exception types, never exception bodies or user queries. Invalid nested source structures and invalid market numbers are rejected before caching; a still-valid cached response can be served with its saved-data warning. Catalog refreshes continue after unexpected errors. Price controls cost two request tokens, including chart changes.
+
+For optional crash recovery on Windows, run `.\start-bot-supervised.cmd`. It restarts failed processes at most five times with 5–60 second backoff. Ctrl+C stops it; a clean exit is not restarted. Register commands separately with the ordinary launcher first; supervised mode rejects `--sync`. Keep the terminal open and run only one bot instance. This does not install a Windows service or start the bot after a machine reboot.
+
 ## Bot profile and activity
 
 Suggested application description for the Discord Developer Portal:

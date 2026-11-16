@@ -5,9 +5,10 @@ from __future__ import annotations
 import asyncio
 import ipaddress
 import json
+import logging
 import os
 import time
-from collections import OrderedDict
+from collections import Counter, OrderedDict
 from dataclasses import dataclass
 from email.utils import parsedate_to_datetime
 from pathlib import Path
@@ -15,6 +16,9 @@ from pathlib import Path
 import aiohttp
 
 from .core import ORIGIN, Index, UserError, page_url, route
+from .market import number
+
+log = logging.getLogger("vesterian.data")
 
 
 class SourceError(UserError):
@@ -153,6 +157,52 @@ def validate_payload(path, data):
             valid = page_url(data["url"]) == page_url(path)
     if not valid:
         raise SourceError("The data format changed; this result cannot be verified.")
+    # Validate nested structures consumed by command renderers, while allowing new fields.
+    lists = {
+        "codes",
+        "expiredCodes",
+        "changes",
+        "markets",
+        "days",
+        "hours",
+        "drops",
+        "spawnLocations",
+        "craftingRecipes",
+        "reforgeRecipes",
+        "usedInRecipes",
+        "rankTables",
+        "characters",
+        "monsters",
+        "exits",
+    }
+    for key in lists & data.keys():
+        if not isinstance(data[key], list) or any(not isinstance(row, dict) for row in data[key]):
+            raise SourceError("The data format changed; this result cannot be verified.")
+    for key in ("metadata", "last24Hours"):
+        if key in data and data[key] is not None and not isinstance(data[key], dict):
+            raise SourceError("The data format changed; this result cannot be verified.")
+    if path.startswith("/market/") or "/market-history" in path:
+        rows = data.get("markets", []) + data.get("days", []) + data.get("hours", [])
+        if data.get("last24Hours"):
+            rows += [data["last24Hours"]]
+        for row in rows:
+            for key in (
+                "averagePrice",
+                "medianPrice",
+                "averageAskingPrice",
+                "previousAveragePrice",
+                "purchases",
+                "units",
+                "previousPurchases",
+                "previousUnits",
+            ):
+                value = row.get(key)
+                if value is not None and (not number(value) or value < 0):
+                    raise SourceError(
+                        "The market data format changed; previous data retained where available."
+                    )
+            if "/market-history" in path and not isinstance(row.get("day", row.get("time")), str):
+                raise SourceError("The market history format changed.")
 
 
 @dataclass
@@ -177,6 +227,7 @@ class Repository:
         self.refresh_lock = asyncio.Lock()
         self.generation = 0
         self.missing = OrderedDict()
+        self.metrics = Counter()
 
     def load(self):
         try:
@@ -211,6 +262,7 @@ class Repository:
                 self.refresh_error = False
             except (UserError, KeyError, TypeError, OSError, ValueError) as exc:
                 self.refresh_error = True
+                self.metrics["refresh_failures"] += 1
                 raise SourceError("Catalog refresh failed; previous data retained.") from exc
 
     def _save(self, saved):
@@ -230,6 +282,7 @@ class Repository:
             raise NotFound("That exact entry is currently unavailable. Try again shortly.")
         old = self.cache.get(path)
         if old and old.generation == self.generation and self.clock() - old.checked < fresh:
+            self.metrics["cache_hits"] += 1
             self.cache.move_to_end(path)
             return old
         if path not in self.inflight:
@@ -255,13 +308,19 @@ class Repository:
             raise
         except SourceError:
             if old and self.clock() - old.checked <= maximum:
+                self.metrics["stale_served"] += 1
                 return Record(old.data, old.checked, True, old.size)
             raise
 
     async def _fetch(self, path):
         generation = self.generation
         data, _ = await self.source.get(path)
-        validate_payload(path, data)
+        try:
+            validate_payload(path, data)
+        except (SourceError, UserError) as exc:
+            self.metrics["invalid_payloads"] += 1
+            log.warning("source_schema_rejected")
+            raise SourceError("The source data changed; this result cannot be verified.") from exc
         record = Record(
             data,
             self.clock(),

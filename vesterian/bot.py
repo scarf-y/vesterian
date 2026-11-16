@@ -38,6 +38,7 @@ class ResultView(discord.ui.View):
         self.command, self.query, self.section = command, query, view
         self.result, self.pages, self.page = result, result.embeds(), 0
         self.busy = False
+        self.history = []
         self.rebuild()
 
     def attachments(self):
@@ -141,6 +142,42 @@ class ResultView(discord.ui.View):
 
             metrics.callback = change_metric
             self.add_item(metrics)
+        if self.result.related:
+            related = discord.ui.Select(
+                placeholder="Explore related entries (up to 25)",
+                options=[
+                    discord.SelectOption(
+                        label=e.name[:100], value=e.key, description=(e.kind + " " + e.context)[:100]
+                    )
+                    for e in self.result.related
+                ],
+            )
+
+            async def explore(interaction):
+                entry = next((e for e in self.result.related if e.key == related.values[0]), None)
+                if entry is None:
+                    raise UserError("Selection expired. Run the command again.")
+                await self.replace(interaction, entry.kind, entry.key, None, navigate=True)
+
+            related.callback = explore
+            self.add_item(related)
+        for title, command, query, section in self.result.actions:
+            button = discord.ui.Button(label=title)
+
+            async def navigate(interaction, c=command, q=query, v=section):
+                await self.replace(interaction, c, q, v, navigate=True)
+
+            button.callback = navigate
+            self.add_item(button)
+        if self.history:
+            back = discord.ui.Button(label="Back")
+
+            async def go_back(interaction):
+                c, q, v, options = self.history[-1]
+                await self.replace(interaction, c, q, v, backwards=True, **options)
+
+            back.callback = go_back
+            self.add_item(back)
         if self.result.url:
             self.add_item(discord.ui.Button(label="Open database page", url=self.result.url))
 
@@ -165,13 +202,25 @@ class ResultView(discord.ui.View):
             await interaction.response.send_message(str(exc), ephemeral=True, allowed_mentions=NO_MENTIONS)
             return False
 
-    async def replace(self, interaction, command, query, section, **options):
+    async def replace(self, interaction, command, query, section, navigate=False, backwards=False, **options):
         self.busy = True
         self.app.active[self.owner] += 1
         try:
             await interaction.response.defer()
             async with asyncio.timeout(15):
                 result = await self.app.service.run(command, query, section, **options)
+            if backwards:
+                self.history.pop()
+            elif navigate:
+                self.history.append(
+                    (
+                        self.command,
+                        self.query,
+                        self.section,
+                        {"window": self.result.chart_range, "metric": self.result.chart_metric},
+                    )
+                )
+                self.history = self.history[-20:]
             self.command, self.query = command, query
             self.section = section or VIEWS.get(command, (None,))[0]
             self.result, self.pages, self.page = result, result.embeds(), 0
@@ -192,6 +241,7 @@ class ResultView(discord.ui.View):
                 del self.app.active[self.owner]
 
     async def on_error(self, interaction, error, item):
+        self.app.metrics["errors"] += 1
         log.error("component_failed type=%s", type(error).__name__)
         send = (
             interaction.followup.send if interaction.response.is_done() else interaction.response.send_message
@@ -225,6 +275,7 @@ class Bot(discord.Client):
         self.tree = app_commands.CommandTree(self)
         self.directory, self.do_sync, self.test_guild = directory, sync, guild_id
         self.limits, self.active, self.seen = Limits(), Counter(), OrderedDict()
+        self.metrics = Counter()
         self.service = None
         self.session = self.worker = None
         register(self)
@@ -267,6 +318,10 @@ class Bot(discord.Client):
                 log.info("catalog_refreshed")
             except SourceError:
                 log.warning("catalog_refresh_failed")
+            except Exception as exc:
+                self.service.repo.refresh_error = True
+                self.service.repo.metrics["refresh_failures"] += 1
+                log.error("catalog_refresh_unexpected type=%s", type(exc).__name__)
             await asyncio.sleep(random.uniform(810, 990))
 
     def admit(self, interaction, command, component=False):
@@ -279,9 +334,13 @@ class Bot(discord.Client):
             raise UserError("This interaction was already handled.")
         if self.active[interaction.user.id] >= 2 or sum(self.active.values()) >= 50:
             raise UserError("Too many requests are already running. Please wait.")
-        self.limits.take(
-            interaction.user.id, interaction.guild_id, 1 if component else 2 if command == "price" else 1
-        )
+        try:
+            self.limits.take(interaction.user.id, interaction.guild_id, 2 if command == "price" else 1)
+        except UserError:
+            self.metrics["rate_limited"] += 1
+            log.info("request_rate_limited command=%s component=%s", command, component)
+            raise
+        self.metrics["accepted"] += 1
         self.seen[interaction.id] = now
 
     async def respond(self, interaction, command, query="", view=None, public=False, **options):
@@ -298,6 +357,11 @@ class Bot(discord.Client):
             )
             async with asyncio.timeout(15):
                 result = await self.service.run(command, query, view, **options)
+            if command == "status":
+                result.lines.append(
+                    f"Since startup: {self.metrics['accepted']} admitted interactions; "
+                    f"{self.metrics['rate_limited']} rate-limit rejections; {self.metrics['errors']} display errors."
+                )
             controls = ResultView(
                 self, interaction, result, command, query, view or VIEWS.get(command, (None,))[0]
             )
@@ -315,6 +379,7 @@ class Bot(discord.Client):
                 allowed_mentions=NO_MENTIONS,
             )
         except Exception as exc:
+            self.metrics["errors"] += 1
             log.error("command_failed command=%s type=%s", command, type(exc).__name__)
             await interaction.edit_original_response(
                 content="This result could not be displayed. Try again later.",

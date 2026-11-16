@@ -63,7 +63,7 @@ All names support manual text or autocomplete. A suggestion's stored value ident
 - No recorded drops, sources or locations: say information is not recorded; absence is not proof the game has none.
 - Source temporarily fails: use a previously validated cache within the allowed age and label it. After the age limit, report unavailable.
 - Fresh catalog format is incompatible or loses over 20% of a category: retain the saved catalog and expose refresh failure in `/status`.
-- User/server/app quota exceeded: private wait message before fetching. Price uses two command tokens; other commands/buttons use one.
+- User/server/app quota exceeded: private wait message before fetching. Price commands and controls on price results use two tokens; other commands and controls use one.
 - Someone else clicks your controls: private explanation telling them to run their own command.
 - A command fails after `public:true`: its public loading reply becomes a short generic error. Sensitive exception details are never included.
 
@@ -76,3 +76,11 @@ Source requests are spaced at least one second apart with two concurrent slots a
 Catalog polling runs every 15 minutes with jitter and conditional requests. The last accepted catalog survives restart through an atomic file replacement. Details, quota counters, interaction sessions and negative caches are in memory. Prices refresh on demand after 15 minutes, history after one hour, codes after 15 minutes, and ordinary details after six hours. The maximum unverified ages are one hour for prices/codes, six hours for history, and seven days for static data.
 
 The original [design](bot-design.md) also describes future work: SQLite storage, seven-generation rollback, distributed quotas, per-feature circuit breakers, full operational metrics, global-search fallback, richer images, configurable policies and subscriptions. Those are not implemented by this first functional release. No automatic announcements or admin/configuration commands are enabled. A live Discord acceptance check is still required with the owner's credentials and test server.
+
+## Connected browsing and market context
+
+Items have Check price and Find sources shortcuts; monsters have View drops and Find locations. Explore related entries opens up to 25 links recognized in the current catalog, preserving exact variants. Market replies offer View item. Back returns through up to 20 navigation steps. These controls edit the same message, preserve its visibility, and remain restricted to its original requester for 10 minutes.
+
+Market summaries show average price change against the supplied previous period only when both periods have completed sales and a positive previous average. Missing comparisons and counts are explicitly unknown. Fewer than 10 transactions triggers a low-volume note; zero means no completed sales. Transactions count purchases, while items sold counts their quantities. Source snapshot age is separate from the bot's cache check time; source timestamps older than 24 hours receive a notice.
+
+/status also reports process-local cache hits, saved-data fallbacks, rejected payloads, refresh failures, admitted interactions, rate-limit rejections, and display errors. These reset when the process restarts. See README.md for the optional crash-recovery launcher.

@@ -8,6 +8,7 @@ from .presentation import color, media_url, money
 from .charts import ChartRenderer, RANGES, METRICS, series, volume_rows, count
 import math
 from .cards import compact
+from .market import activity, change as market_change, freshness
 
 VIEWS = {
     "item": ("overview", "sources", "crafting", "details"),
@@ -62,6 +63,7 @@ class Service:
                     f"Last validated: {timestamp(self.repo.checked) if self.repo.checked else 'never'}",
                     f"Source build: {clean((self.repo.catalog or {}).get('build', {}).get('builtAt', 'unknown'))}",
                     f"Last refresh: {'failed; using saved data where allowed' if self.repo.refresh_error else 'successful'}",
+                    f"Cache hits: {self.repo.metrics['cache_hits']}; saved-data fallbacks: {self.repo.metrics['stale_served']}; rejected payloads: {self.repo.metrics['invalid_payloads']}; refresh failures: {self.repo.metrics['refresh_failures']}",
                     "Detail responses are fetched separately. Website data may differ from the live game.",
                 ],
             )
@@ -203,7 +205,47 @@ class Service:
             result.lines = [
                 "No drops recorded for this encounter. Try another variant or open the database page."
             ]
+        result.related = self.related(d, entry)
+        if command == "item":
+            result.actions = [
+                ("Check price", "price", entry.key, "summary"),
+                ("Find sources", "item", entry.key, "sources"),
+            ]
+        elif command == "monster":
+            result.actions = [
+                ("View drops", "monster", entry.key, "drops"),
+                ("Find locations", "monster", entry.key, "locations"),
+            ]
         return result
+
+    def related(self, data, current):
+        known = {
+            page_url(e.path): e
+            for e in self.repo.ready_index().entries.values()
+            if e.kind in VIEWS and e.key != current.key
+        }
+        found = {}
+
+        def walk(value, depth=0):
+            if depth > 12 or len(found) >= 25:
+                return
+            if isinstance(value, dict):
+                if value.get("hidden") or value.get("groupOnly"):
+                    return
+                try:
+                    entry = known.get(page_url(value.get("url")))
+                    if entry:
+                        found[entry.key] = entry
+                except UserError:
+                    pass
+                for child in value.values():
+                    walk(child, depth + 1)
+            elif isinstance(value, list):
+                for child in value[:100]:
+                    walk(child, depth + 1)
+
+        walk(data)
+        return list(found.values())
 
     def result(self, title, lines, path, record):
         note = f"{'Cached; refresh unavailable. ' if record.stale else ''}Checked {timestamp(record.checked)}"
@@ -251,6 +293,7 @@ class Service:
                 entry.path,
                 record,
             )
+            result.actions = [("View item", "item", entry.key, "overview")]
             result.chart = await self.charts.draw(entry.name, d, window, metric, self.repo.clock())
             result.chart_range, result.chart_metric = window, metric
             points, _, _ = series(d, window, metric, self.repo.clock())
@@ -278,6 +321,10 @@ class Service:
                     result.lines.insert(0, "⚠ **Showing saved data — the source could not be refreshed.**")
             else:
                 result.lines.append("No comparable prices recorded. Try **30d** or a different metric.")
+            if sum(count(r.get("purchases")) for _, r in rows) < 10:
+                result.lines.append(
+                    "Low recorded volume: fewer than 10 transactions in comparable buckets. Trends may be unreliable."
+                )
             result.thumbnail = media_url(p.path + "/thumbnail" + ("?" + p.query if p.query else ""))
             return result
         if view == "history":
@@ -302,28 +349,32 @@ class Service:
         result = self.result(f"{entry.name} — market {view}", lines, entry.path, record)
         if view == "summary":
             result.lines = [
-                "Completed sales and asking prices are different measures. Choose **Chart** to explore trends."
+                "Completed sales show what buyers paid; asks are seller listings, not completed sales. Choose **Chart** to explore trends.",
+                "A transaction is one purchase; items sold counts its quantity. Ten items in one purchase = 1 transaction and 10 items sold.",
+                freshness(d.get("updatedAt"), self.repo.clock()),
             ]
             for r in rows:
                 window_name = clean(r.get("window", "Market"))
                 result.fields.extend(
                     [
                         (window_name + " · Average sale", money(r.get("averagePrice")), True),
+                        (window_name + " · Average price change", market_change(r), False),
                         (window_name + " · Median sale", money(r.get("medianPrice")), True),
                         (window_name + " · Average ask", money(r.get("averageAskingPrice")), True),
                         (
                             window_name + " · Activity",
-                            f"{count(r.get('purchases')):,} transactions · {count(r.get('units')):,} items sold",
+                            activity(r),
                             False,
                         ),
                     ]
                 )
             if not rows:
-                result.lines = ["No market activity recorded. Try **History** or choose another item."]
+                result.lines.append("No market activity recorded. Try **History** or choose another item.")
             if record.stale:
                 result.lines.insert(0, "⚠ **Showing saved data — the source could not be refreshed.**")
             result.note += " · Source updated: " + clean(d.get("updatedAt", "unknown"))
         result.thumbnail = media_url(p.path + "/thumbnail" + ("?" + p.query if p.query else ""))
+        result.actions = [("View item", "item", entry.key, "overview")]
         return result
 
     async def codes(self, show):

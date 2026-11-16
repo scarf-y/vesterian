@@ -210,6 +210,8 @@ class Result:
     chart_range: str = "7d"
     chart_metric: str = "averagePrice"
     fields: list[tuple[str, str, bool]] = field(default_factory=list)
+    related: list[Entry] = field(default_factory=list)
+    actions: list[tuple[str, str, str, str]] = field(default_factory=list)
 
     def embeds(self):
         chunks, current = [], []
