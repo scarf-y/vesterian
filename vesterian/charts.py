@@ -10,7 +10,7 @@ from threading import Lock
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib import dates as mdates, image as mimage
-from matplotlib.ticker import FuncFormatter
+from matplotlib.ticker import FuncFormatter, MaxNLocator
 
 from .presentation import DENOMINATIONS
 
@@ -88,91 +88,187 @@ def series(data, window, metric, now):
     return expanded, start, end
 
 
-def render(name, data, window, metric, now):
+def tick_price(value, _=None):
+    # Keep tiny nonzero values visible instead of rounding them to zero.
+    if value and abs(value) < 0.01:
+        return f"{value:.2g}"
+    return f"{value:,.2f}".rstrip("0").rstrip(".")
+
+
+def build_figure(name, data, window, metric, now):
     points, start, end = series(data, window, metric, now)
-    valid = [v for _, v in points if math.isfinite(v)]
+    observed = [(at, v) for at, v in points if math.isfinite(v)]
+    valid = [v for _, v in observed]
     unit, divisor, _ = next((d for d in DENOMINATIONS if valid and max(valid) >= d[1]), DENOMINATIONS[-1])
+    rows = volume_rows(data, window, now)
+    bg, panel, text, muted, accent = "#101720", "#192430", "#edf4fa", "#a9bbcb", "#75dfcf"
+    fig = Figure(figsize=(10, 6), dpi=120, facecolor=bg)
+    FigureCanvasAgg(fig)
+    title = name if len(name) <= 55 else name[:52] + "..."
+    fig.text(0.085, 0.94, title, color=text, fontsize=19, weight="bold", parse_math=False)
+    bucket = "Hourly" if window == "24h" else "Daily"
+    subtitle = f"{METRICS[metric]} per item  /  Last {window}  /  {bucket} observations  /  UTC"
+    fig.text(0.085, 0.895, subtitle, color=muted, fontsize=10)
+    latest = f"{tick_price(valid[-1] / divisor)} {unit}" if valid else "No price data"
+    change = (valid[-1] / valid[0] - 1) * 100 if len(valid) > 1 and valid[0] > 0 else None
+    change_text = f"{change:+.1f}%" if change is not None else "Not comparable"
+    trades_known = bool(rows) and all(
+        isinstance(r.get("purchases"), (int, float))
+        and not isinstance(r.get("purchases"), bool)
+        and math.isfinite(r["purchases"])
+        and r["purchases"] >= 0
+        for _, r in rows
+    )
+    trades = sum(count(r.get("purchases")) for _, r in rows)
+    activity = f"{trades:,.0f} transactions" if trades_known else "Volume incomplete"
+    activity_hint = (
+        "Low volume: fewer than 10" if trades_known and trades < 10 else "Across available observations"
+    )
+    latest_hint = (
+        observed[-1][0].strftime("Recorded %d %b, %H:%M UTC") if observed else "Try a longer time range"
+    )
+    cards = [
+        ("LATEST RECORDED", latest, latest_hint),
+        ("OBSERVED CHANGE", change_text, "First to last available price"),
+        ("TRADING ACTIVITY", activity, activity_hint),
+    ]
+    for x, (label, value, hint) in zip((0.085, 0.385, 0.685), cards, strict=True):
+        card = fig.add_axes((x, 0.745, 0.28, 0.115), facecolor=panel)
+        card.set_xticks([])
+        card.set_yticks([])
+        for spine in card.spines.values():
+            spine.set_visible(False)
+        card.text(0.06, 0.77, label, color=muted, fontsize=8, transform=card.transAxes)
+        card.text(
+            0.06,
+            0.40,
+            value,
+            color=accent if label == "LATEST RECORDED" else text,
+            fontsize=14,
+            weight="bold",
+            transform=card.transAxes,
+        )
+        card.text(0.06, 0.12, hint, color=muted, fontsize=7.5, transform=card.transAxes)
+    ax = fig.add_axes((0.085, 0.395, 0.88, 0.285), facecolor=bg)
+    volume = fig.add_axes((0.085, 0.16, 0.88, 0.145), facecolor=bg, sharex=ax)
+    for plot in (ax, volume):
+        for spine in plot.spines.values():
+            spine.set_visible(False)
+        plot.tick_params(colors=muted, labelsize=9, length=0, pad=7)
+        plot.grid(axis="y", color="#293644", linewidth=0.6)
+        plot.set_axisbelow(True)
+        plot.yaxis.set_major_locator(MaxNLocator(nbins=4, min_n_ticks=2))
+    ax.set_xlim(start, end)
+    locator = mdates.AutoDateLocator(minticks=3, maxticks=6)
+    volume.xaxis.set_major_locator(locator)
+    volume.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M" if window == "24h" else "%d %b", tz=UTC))
+    ax.tick_params(labelbottom=False)
+    ax.yaxis.set_major_formatter(FuncFormatter(tick_price))
+    ax.set_title(f"PRICE  /  {unit} per item", loc="left", color=muted, fontsize=9, pad=12)
+    if valid:
+        ax.text(
+            1,
+            1.08,
+            "Dashed guide: latest recorded price",
+            ha="right",
+            color=muted,
+            fontsize=8,
+            transform=ax.transAxes,
+        )
+        times, values = [at for at, _ in points], [v / divisor for _, v in points]
+        ax.plot(times, values, color=accent, linewidth=2.3, marker="o", markersize=3.5)
+        ax.fill_between(times, values, 0, color=accent, alpha=0.08)
+        ax.axhline(valid[-1] / divisor, color=accent, alpha=0.3, linewidth=1, linestyle=(0, (3, 4)))
+        ax.scatter(
+            [observed[-1][0]],
+            [valid[-1] / divisor],
+            s=45,
+            color=accent,
+            edgecolor=bg,
+            linewidth=1.5,
+            zorder=5,
+            clip_on=False,
+        )
+        ax.set_ylim(0, max(valid) / divisor * 1.18 if max(valid) else 1)
+    else:
+        ax.set_ylim(0, 1)
+        ax.set_yticks([])
+        ax.text(
+            0.5,
+            0.5,
+            "No comparable prices in this range",
+            ha="center",
+            va="center",
+            color=text,
+            fontsize=12,
+            transform=ax.transAxes,
+        )
+    # Side-by-side bars avoid making transactions look like part of an item stack.
+    width = 0.014 if window == "24h" else 0.28
+    dates = [mdates.date2num(at) for at, _ in rows]
+    for key, offset, color, label in (
+        ("units", -width / 2, "#527eae", "Items sold"),
+        ("purchases", width / 2, "#d9bc7d", "Transactions"),
+    ):
+        values = [r.get(key) for _, r in rows]
+        heights = [
+            v
+            if isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v) and v >= 0
+            else float("nan")
+            for v in values
+        ]
+        volume.bar([at + offset for at in dates], heights, width=width * 0.9, color=color, label=label)
+    volume.set_ylim(bottom=0)
+    if not rows:
+        volume.text(
+            0.5,
+            0.5,
+            "No trading activity data in this range",
+            ha="center",
+            va="center",
+            color=muted,
+            fontsize=10,
+            transform=volume.transAxes,
+        )
+    volume.yaxis.set_major_locator(MaxNLocator(nbins=3, integer=True, min_n_ticks=2))
+    volume.yaxis.set_major_formatter(FuncFormatter(lambda n, _: f"{n:,.0f}"))
+    if not rows:
+        volume.set_yticks([])
+    volume.set_title("TRADING ACTIVITY  /  count", loc="left", color=muted, fontsize=9, pad=12)
+    volume.legend(
+        loc="lower right",
+        bbox_to_anchor=(1, 1.04),
+        ncol=2,
+        frameon=False,
+        labelcolor=text,
+        fontsize=8,
+        borderaxespad=0,
+    )
+    fig.text(
+        0.085,
+        0.075,
+        "1 transaction = 1 purchase; items sold counts the quantity bought.",
+        color=muted,
+        fontsize=8,
+    )
+    explanation = (
+        "Asks are seller listings, not completed sales."
+        if metric == "averageAskingPrice"
+        else "Each point is a recorded per-item price."
+    )
+    fig.text(
+        0.085, 0.04, explanation + " Gaps = missing data; legacy pricing excluded.", color=muted, fontsize=8
+    )
+    icon = Path(__file__).parent / "assets" / f"{unit.lower()}.png"
+    icon_ax = fig.add_axes((0.925, 0.89, 0.04, 0.07))
+    icon_ax.imshow(mimage.imread(icon))
+    icon_ax.axis("off")
+    return fig
+
+
+def render(name, data, window, metric, now):
     with LOCK:
-        fig = Figure(figsize=(10, 6), dpi=120, facecolor="#101923")
-        FigureCanvasAgg(fig)
-        ax = fig.add_axes((0.1, 0.43, 0.85, 0.38), facecolor="#101923")
-        for spine in ax.spines.values():
-            spine.set_color("#334454")
-        ax.tick_params(colors="#aab9c8", labelsize=9)
-        ax.grid(axis="y", color="#273747", linewidth=0.7)
-        ax.set_xlim(start, end)
-        ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=3, maxticks=6))
-        ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M" if window == "24h" else "%d %b", tz=UTC))
-        ax.yaxis.set_major_formatter(FuncFormatter(lambda n, _: f"{n:,.2f}".rstrip("0").rstrip(".")))
-        ax.set_ylabel(unit + " / item", color="#aab9c8")
-        if valid:
-            ax.plot(
-                [p[0] for p in points],
-                [p[1] / divisor for p in points],
-                color="#70f1ff",
-                linewidth=2,
-                marker="o",
-                markersize=3,
-            )
-            ax.set_ylim(bottom=0)
-            last = next(p for p in reversed(points) if math.isfinite(p[1]))
-            ax.annotate(
-                f"{last[1] / divisor:,.2f} {unit}",
-                xy=(last[0], last[1] / divisor),
-                xytext=(-8, 12),
-                textcoords="offset points",
-                ha="right",
-                color="#70f1ff",
-                fontsize=10,
-            )
-            ax.set_ylim(0, max(valid) / divisor * 1.25 if max(valid) else 1)
-        else:
-            ax.text(
-                0.5,
-                0.5,
-                "No comparable prices — try another range",
-                ha="center",
-                color="#aab9c8",
-                transform=ax.transAxes,
-            )
-        volume = fig.add_axes((0.1, 0.17, 0.85, 0.15), facecolor="#101923", sharex=ax)
-        rows = volume_rows(data, window, now)
-        width = 0.025 if window == "24h" else 0.65
-        volume.bar(
-            [r[0] for r in rows],
-            [count(r[1].get("units")) for r in rows],
-            width=width,
-            color="#477d85",
-            label="Items sold",
-        )
-        volume.bar(
-            [r[0] for r in rows],
-            [count(r[1].get("purchases")) for r in rows],
-            width=width * 0.4,
-            color="#d7e4ef",
-            label="Transactions",
-        )
-        volume.tick_params(colors="#aab9c8", labelsize=9)
-        volume.set_ylabel("Count", color="#aab9c8")
-        volume.legend(
-            loc="upper left", bbox_to_anchor=(0, 1.4), ncol=2, frameon=False, labelcolor="#aab9c8", fontsize=9
-        )
-        for spine in volume.spines.values():
-            spine.set_color("#334454")
-        ax.tick_params(labelbottom=False)
-        fig.text(0.1, 0.91, name[:65], color="white", fontsize=17, weight="bold", parse_math=False)
-        fig.text(0.1, 0.85, f"{METRICS[metric]}  /  {window}  /  UTC", color="#aab9c8", fontsize=10)
-        fig.text(
-            0.1,
-            0.08,
-            "Per-item prices only · Legacy per-sale days excluded · Missing values are gaps",
-            color="#aab9c8",
-            fontsize=9,
-        )
-        icon = Path(__file__).parent / "assets" / f"{unit.lower()}.png"
-        icon_ax = fig.add_axes((0.9, 0.84, 0.055, 0.11))
-        icon_ax.imshow(mimage.imread(icon))
-        icon_ax.axis("off")
+        fig = build_figure(name, data, window, metric, now)
         out = io.BytesIO()
         fig.savefig(out, format="png", facecolor=fig.get_facecolor())
         return out.getvalue()
