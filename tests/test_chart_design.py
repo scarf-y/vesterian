@@ -1,8 +1,46 @@
 import math
 
-from vesterian.charts import build_figure, tick_price
+from vesterian.charts import build_figure, tick_price, price_scale
+import pytest
 
 NOW = 1794704400
+
+
+@pytest.mark.parametrize("values", [[3.61, 3.65], [0.00101, 0.00102], [100.000001, 100.000002]])
+def test_price_axis_zooms_to_observations_with_distinct_labels(values):
+    bottom, top, formatter = price_scale(values)
+    assert 0 < bottom < min(values) < max(values) < top
+    assert top - bottom < 2 * (max(values) - min(values))
+    assert formatter(min(values), 0) != formatter(max(values), 1)
+
+
+@pytest.mark.parametrize("values", [[0, 0], [3.6, 3.6], [0, 1]])
+def test_flat_and_zero_prices_have_valid_visible_limits(values):
+    bottom, top, _ = price_scale(values)
+    assert 0 <= bottom <= min(values) <= max(values) < top
+
+
+def test_affordable_items_use_silver_despite_one_gold_outlier():
+    fig = build_figure(
+        "Affordable",
+        {
+            "days": [
+                {"day": "2026-11-12", "averagePrice": 2500, "purchases": 1},
+                {"day": "2026-11-13", "averagePrice": 2600, "purchases": 1},
+                {"day": "2026-11-14", "averagePrice": 1000000, "purchases": 1},
+            ]
+        },
+        "7d",
+        "averagePrice",
+        NOW,
+    )
+    ax = fig.axes[3]
+    assert "Silver per item" in ax.get_title(loc="left")
+    assert ax.get_ylim()[1] > 1000  # Do not silently crop real outliers.
+
+
+def test_latest_price_preserves_small_changes():
+    assert tick_price(3.667221) == "3.667221"
 
 
 def texts(fig):

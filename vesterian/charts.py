@@ -6,6 +6,7 @@ import math
 from datetime import datetime, timedelta, UTC
 from pathlib import Path
 from threading import Lock
+from statistics import median
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg
@@ -92,14 +93,31 @@ def tick_price(value, _=None):
     # Keep tiny nonzero values visible instead of rounding them to zero.
     if value and abs(value) < 0.01:
         return f"{value:.2g}"
-    return f"{value:,.2f}".rstrip("0").rstrip(".")
+    return f"{value:,.6f}".rstrip("0").rstrip(".")
+
+
+def price_scale(values):
+    """Fit all observations with breathing room, including flat and zero-price series."""
+    low, high = min(values), max(values)
+    padding = (high - low) * 0.15 if high > low else (abs(high) * 0.02 or 1)
+    bottom, top = max(0, low - padding), high + padding
+    # Tick precision follows the plotted span, not a fixed number of decimals.
+    decimals = max(0, math.ceil(-math.log10((top - bottom) / 5)) + 1)
+
+    def label(value, _):
+        if decimals > 10:
+            return f"{value:.12g}"
+        text = f"{value:,.{decimals}f}"
+        return text.rstrip("0").rstrip(".") if decimals else text
+
+    return bottom, top, label
 
 
 def build_figure(name, data, window, metric, now):
     points, start, end = series(data, window, metric, now)
     observed = [(at, v) for at, v in points if math.isfinite(v)]
     valid = [v for _, v in observed]
-    unit, divisor, _ = next((d for d in DENOMINATIONS if valid and max(valid) >= d[1]), DENOMINATIONS[-1])
+    unit, divisor, _ = next((d for d in DENOMINATIONS if valid and median(valid) >= d[1]), DENOMINATIONS[-1])
     rows = volume_rows(data, window, now)
     bg, panel, text, muted, accent = "#101720", "#192430", "#edf4fa", "#a9bbcb", "#75dfcf"
     fig = Figure(figsize=(10, 6), dpi=120, facecolor=bg)
@@ -164,7 +182,7 @@ def build_figure(name, data, window, metric, now):
     volume.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M" if window == "24h" else "%d %b", tz=UTC))
     ax.tick_params(labelbottom=False)
     ax.yaxis.set_major_formatter(FuncFormatter(tick_price))
-    ax.set_title(f"PRICE  /  {unit} per item", loc="left", color=muted, fontsize=9, pad=12)
+    ax.set_title(f"PRICE  /  {unit} per item (auto-scaled)", loc="left", color=muted, fontsize=9, pad=12)
     if valid:
         ax.text(
             1,
@@ -177,7 +195,6 @@ def build_figure(name, data, window, metric, now):
         )
         times, values = [at for at, _ in points], [v / divisor for _, v in points]
         ax.plot(times, values, color=accent, linewidth=2.3, marker="o", markersize=3.5)
-        ax.fill_between(times, values, 0, color=accent, alpha=0.08)
         ax.axhline(valid[-1] / divisor, color=accent, alpha=0.3, linewidth=1, linestyle=(0, (3, 4)))
         ax.scatter(
             [observed[-1][0]],
@@ -189,7 +206,10 @@ def build_figure(name, data, window, metric, now):
             zorder=5,
             clip_on=False,
         )
-        ax.set_ylim(0, max(valid) / divisor * 1.18 if max(valid) else 1)
+        bottom, top, formatter = price_scale([v / divisor for v in valid])
+        ax.set_ylim(bottom, top)
+        ax.yaxis.set_major_locator(MaxNLocator(nbins=5, min_n_ticks=3, prune="both"))
+        ax.yaxis.set_major_formatter(FuncFormatter(formatter))
     else:
         ax.set_ylim(0, 1)
         ax.set_yticks([])
